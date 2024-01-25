@@ -6,7 +6,7 @@ interface MemoItemProps {
 
 const MemoItem = ( { memo }: MemoItemProps) => {
     return (
-        <div> {memo.label} </div>
+        <div> {memo.title} </div>
     );
 };
 

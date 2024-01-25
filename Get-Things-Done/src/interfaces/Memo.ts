@@ -1,9 +1,9 @@
 export interface Memo {
     id: number;
-    label: string;
+    title: string;
+    note: string;
     type: 'temp' | 'todo' | 'event';
-    date?: Date;
-    tags?: string[];
+    startDate?: Date;
+    endDate?: Date;
     repeat?: string;
-    alarm?: Date;
 }

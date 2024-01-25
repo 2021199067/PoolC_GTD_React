@@ -7,7 +7,7 @@ interface TodoItemProps {
 const TodoItem = ({ todo }: TodoItemProps) => {
     return (
         <div>
-            {todo.label}
+            {todo.title}
         </div>
     )
 };
