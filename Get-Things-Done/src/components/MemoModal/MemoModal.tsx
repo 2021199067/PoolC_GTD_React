@@ -25,14 +25,23 @@
 
 // 끝
 
-import { SetStateAction, useState } from "react";
+import {
+  SetStateAction,
+  useState,
+  useRef,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import styles from "./MemoModal.module.css";
 import MemoModalDetail from "./MemoModalDetail";
 import MemoModalProject from "./MemoModalProject";
 
-function MemoModal() {
+const MemoModal = forwardRef((_, ref) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [projectOpen, setProjectOpen] = useState(false);
+  const modalRef = useRef(null);
+
+  useImperativeHandle(ref, () => modalRef.current);
 
   const handleRadioChange = (e: {
     target: { value: SetStateAction<string> };
@@ -46,7 +55,7 @@ function MemoModal() {
 
   return (
     <>
-      <div className={styles.MemoModal}>
+      <div ref={modalRef} className={`${styles.MemoModal} memo-modal`}>
         <div className={styles.default}>
           <input
             type="text"
@@ -123,6 +132,6 @@ function MemoModal() {
       </div>
     </>
   );
-}
+});
 
 export default MemoModal;

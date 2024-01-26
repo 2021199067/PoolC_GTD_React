@@ -4,7 +4,6 @@ import styles from "./MemoModalDetail.module.css";
 // import MemoModalLocation from "./MemoModalLocation";
 // import MemoModalDeadline from "./MemoModalDeadline";
 // import MemoModalRepeat from "./MemoModalRepeat";
-// import MemoModalAlarm from "./MemoModalAlarm"
 
 interface MemoModalDeatilProps {
   selectedType: "Event" | "Todo";
@@ -34,8 +33,8 @@ function MemoModalDetail({ selectedType }: MemoModalDeatilProps) {
   };
 
   const detailOptions: { [key: string]: string[] } = {
-    Event: ["When", "Location", "Repeat", "Alarm"],
-    Todo: ["When", "Deadline", "Repeat", "Alarm"],
+    Event: ["When", "Location", "Repeat"],
+    Todo: ["When", "Deadline", "Repeat"],
   };
 
   const renderDetails = () => {
@@ -52,9 +51,6 @@ function MemoModalDetail({ selectedType }: MemoModalDeatilProps) {
       case "Repeat":
         // return <MemoModalRepeat />;
         return <div>Repeat</div>;
-      case "Alarm":
-        // return <MemoModalAlarm />;
-        return <div>Alarm</div>;
       default:
         return <div>Details</div>;
     }

@@ -64,7 +64,6 @@ const MemoModalProject = () => {
         <div className={styles.floor}></div>
         <div className={styles.floor}></div>
       </div>
-      <div className={styles.menubar}></div>
     </>
   );
 };
