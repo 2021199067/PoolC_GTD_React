@@ -1,9 +1,9 @@
 import { useState } from "react";
 import styles from "./MemoModalDetail.module.css";
-// import MemoModalWhen from "./MemoModalWhen";
-// import MemoModalLocation from "./MemoModalLocation";
-// import MemoModalDeadline from "./MemoModalDeadline";
-// import MemoModalRepeat from "./MemoModalRepeat";
+import MemoModalWhen from "./Details/MemoModalWhen";
+import MemoModalLocation from "./Details/MemoModalLocation";
+import MemoModalDeadline from "./Details/MemoModalDeadline";
+import MemoModalRepeat from "./Details/MemoModalRepeat";
 
 interface MemoModalDeatilProps {
   selectedType: "Event" | "Todo";
@@ -40,17 +40,13 @@ function MemoModalDetail({ selectedType }: MemoModalDeatilProps) {
   const renderDetails = () => {
     switch (selectedDetail) {
       case "When":
-        // return <MemoModalWhen />;
-        return <div>When</div>;
+        return <MemoModalWhen />;
       case "Location":
-        // return <MemoModalLocation />;
-        return <div>Location</div>;
+        return <MemoModalLocation />;
       case "Deadline":
-        // return <MemoModalDeadline />;
-        return <div>Deadline</div>;
+        return <MemoModalDeadline />;
       case "Repeat":
-        // return <MemoModalRepeat />;
-        return <div>Repeat</div>;
+        return <MemoModalRepeat />;
       default:
         return <div>Details</div>;
     }
