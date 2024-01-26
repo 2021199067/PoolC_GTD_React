@@ -1,0 +1,95 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+
+input {
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+.container {
+  height: 100%;
+  display: flex;
+  font-size: 12px;
+  color: #6b6b6b;
+}
+
+.container .basic {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  border-right: 1px solid #ebebeb;
+}
+
+.container .basic .row {
+  display: flex;
+  position: relative;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  height: 30px;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  transition: all 0.1s ease;
+}
+
+.container .basic .row:hover {
+  background-color: #f5f5f5;
+  cursor: pointer; /* not working */
+}
+
+.container .basic .row .row-selection {
+  display: inline-block;
+  visibility: hiddden;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+}
+
+.container .basic .row .title {
+  width: 20%;
+  padding-left: 10px;
+}
+
+.container .basic .row .input {
+  width: 68%;
+}
+
+.container .basic .row .input input {
+  width: 100%;
+  background-color: transparent;
+}
+
+.container .basic .row .show-details i {
+  padding-top: 4px;
+  padding-right: 10px;
+  font-size: 16px;
+  font-weight: 100;
+}
+
+.container .detail {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+}
