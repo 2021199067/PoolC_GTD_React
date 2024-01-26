@@ -1,16 +1,16 @@
 import { useState } from "react";
-import styles from "./AddNewDetail.module.css";
-// import AddNewWhen from "./AddNewWhen";
-// import AddNewLocation from "./AddNewLocation";
-// import AddNewDeadline from "./AddNewDeadline";
-// import AddNewRepeat from "./AddNewRepeat";
-// import AddNewAlarm from "./AddNewAlarm"
+import styles from "./MemoModalDetail.module.css";
+// import MemoModalWhen from "./MemoModalWhen";
+// import MemoModalLocation from "./MemoModalLocation";
+// import MemoModalDeadline from "./MemoModalDeadline";
+// import MemoModalRepeat from "./MemoModalRepeat";
+// import MemoModalAlarm from "./MemoModalAlarm"
 
-interface AddNewDeatilProps {
+interface MemoModalDeatilProps {
   selectedType: "Event" | "Todo";
 }
 
-function AddNewDetail({ selectedType }: AddNewDeatilProps) {
+function MemoModalDetail({ selectedType }: MemoModalDeatilProps) {
   const [selectedDetail, setSelectedDetail] = useState("");
 
   const handleRowClick = (
@@ -41,19 +41,19 @@ function AddNewDetail({ selectedType }: AddNewDeatilProps) {
   const renderDetails = () => {
     switch (selectedDetail) {
       case "When":
-        // return <AddNewWhen />;
+        // return <MemoModalWhen />;
         return <div>When</div>;
       case "Location":
-        // return <AddNewLocation />;
+        // return <MemoModalLocation />;
         return <div>Location</div>;
       case "Deadline":
-        // return <AddNewDeadline />;
+        // return <MemoModalDeadline />;
         return <div>Deadline</div>;
       case "Repeat":
-        // return <AddNewRepeat />;
+        // return <MemoModalRepeat />;
         return <div>Repeat</div>;
       case "Alarm":
-        // return <AddNewAlarm />;
+        // return <MemoModalAlarm />;
         return <div>Alarm</div>;
       default:
         return <div>Details</div>;
@@ -91,4 +91,4 @@ function AddNewDetail({ selectedType }: AddNewDeatilProps) {
   );
 }
 
-export default AddNewDetail;
+export default MemoModalDetail;

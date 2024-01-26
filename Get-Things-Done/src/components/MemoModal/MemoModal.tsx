@@ -26,11 +26,11 @@
 // 끝
 
 import { SetStateAction, useState } from "react";
-import styles from "./AddNew.module.css";
-import AddNewDetail from "./AddNewDetail";
-import AddNewProject from "./AddNewProject";
+import styles from "./MemoModal.module.css";
+import MemoModalDetail from "./MemoModalDetail";
+import MemoModalProject from "./MemoModalProject";
 
-function AddNew() {
+function MemoModal() {
   const [selectedOption, setSelectedOption] = useState("");
   const [projectOpen, setProjectOpen] = useState(false);
 
@@ -46,7 +46,7 @@ function AddNew() {
 
   return (
     <>
-      <div className={styles.AddNew}>
+      <div className={styles.MemoModal}>
         <div className={styles.default}>
           <input
             type="text"
@@ -81,7 +81,7 @@ function AddNew() {
                 <div>Save</div>
               </label>
             </div>
-            {projectOpen && <AddNewProject />}
+            {projectOpen && <MemoModalProject />}
           </div>
         </div>
 
@@ -114,10 +114,10 @@ function AddNew() {
           className={`${styles.option} ${selectedOption ? styles.visible : ""}`}
         >
           {selectedOption === "Event" && (
-            <AddNewDetail selectedType={selectedOption} />
+            <MemoModalDetail selectedType={selectedOption} />
           )}
           {selectedOption === "Todo" && (
-            <AddNewDetail selectedType={selectedOption} />
+            <MemoModalDetail selectedType={selectedOption} />
           )}
         </div>
       </div>
@@ -125,4 +125,4 @@ function AddNew() {
   );
 }
 
-export default AddNew;
+export default MemoModal;

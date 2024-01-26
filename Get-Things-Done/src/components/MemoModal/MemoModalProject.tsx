@@ -1,6 +1,6 @@
-import styles from "./AddNewProject.module.css";
+import styles from "./MemoModalProject.module.css";
 
-const AddNewProject = () => {
+const MemoModalProject = () => {
   return (
     <>
       <div className={styles.container}>
@@ -69,4 +69,4 @@ const AddNewProject = () => {
   );
 };
 
-export default AddNewProject;
+export default MemoModalProject;
