@@ -87,9 +87,7 @@ input:focus {
 }
 
 .container .detail {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 4px 8px;
   width: 50%;
-  height: 100%;
+  height: calc(100%-8px);
 }

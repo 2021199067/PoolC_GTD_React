@@ -19,6 +19,10 @@ const MemoModalProject = () => {
             <span>학교</span>
             <i className="material-icons">chevron_right</i>
           </div>
+          <div className={`${styles.project} ${styles.leaf}`}>
+            <i className="material-icons">folder</i>
+            <span>folderName</span>
+          </div>
         </div>
         <div className={styles.floor}>
           <div className={`${styles.project} ${styles.branch}`}>

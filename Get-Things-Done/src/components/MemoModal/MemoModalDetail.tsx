@@ -48,7 +48,7 @@ function MemoModalDetail({ selectedType }: MemoModalDeatilProps) {
       case "Repeat":
         return <MemoModalRepeat />;
       default:
-        return <div>Details</div>;
+        return <div></div>;
     }
   };
 
