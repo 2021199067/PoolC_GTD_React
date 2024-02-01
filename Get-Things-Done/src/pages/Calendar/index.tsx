@@ -1,152 +1,166 @@
-import React from "react";
+
+import React from 'react';
 import {
-  EventApi,
-  DateSelectArg,
-  EventClickArg,
-  EventContentArg,
-  formatDate,
-} from "@fullcalendar/core";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import { INITIAL_EVENTS, createEventId } from "./event-utils";
-import "./index.css";
+    EventApi,
+    DateSelectArg,
+    EventClickArg,
+    EventContentArg,
+    formatDate,
+} from '@fullcalendar/core';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import rrulePlugin from '@fullcalendar/rrule';
+import { INITIAL_EVENTS, createEventId } from './event-utils';
+import ExampleModal from '../../components/ExampleModal';
+import { VscDiscard } from 'react-icons/vsc'
+import { WiSmallCraftAdvisory } from "react-icons/wi";
+
+import './index.css';
 
 interface DemoAppState {
-  weekendsVisible: boolean;
-  currentEvents: EventApi[];
+    currentEvents: EventApi[];
+    selectedEvent: EventApi | null;
+    checkedTodos: EventApi[];
+    checkedTodoIds: string[];
 }
 
 export default class DemoApp extends React.Component<object, DemoAppState> {
-  state: DemoAppState = {
-    weekendsVisible: true,
-    currentEvents: [],
-  };
+    state: DemoAppState = {
+        currentEvents: [],
+        selectedEvent: null,
+        checkedTodos: [],
+        checkedTodoIds: [],
+    };
 
-  render() {
-    return (
-      <div className="demo-app">
-        {/* {this.renderSidebar()} */}
-        <div className="demo-app-main">
-          <FullCalendar
-            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-            headerToolbar={{
-              left: "prev,next today",
-              center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay",
-            }}
-            initialView="dayGridMonth"
-            editable={true}
-            selectable={true}
-            selectMirror={true}
-            dayMaxEvents={true}
-            weekends={this.state.weekendsVisible}
-            initialEvents={INITIAL_EVENTS} // alternatively, use the `events` setting to fetch from a feed
-            select={this.handleDateSelect}
-            eventContent={renderEventContent} // custom render function
-            eventClick={this.handleEventClick}
-            eventsSet={this.handleEvents} // called after events are initialized/added/changed/removed
-            /* you can update a remote database when these fire:
-                    eventAdd={function(){}}
-                    eventChange={function(){}}
-                    eventRemove={function(){}}
-                    */
-          />
-        </div>
-      </div>
-    );
-  }
+    render() {
+        return (
+            <div className='demo-app'>
+                <div className='demo-app-main'>
+                    <FullCalendar
+                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, rrulePlugin]}
+                        headerToolbar={{
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                        }}
+                        initialView='dayGridMonth'
+                        editable={true}
+                        selectable={true}
+                        selectMirror={true}
+                        dayMaxEvents={2}
+                        weekends={true}
+                        initialEvents={INITIAL_EVENTS}
+                        select={this.handleDateSelect}
+                        eventContent={this.renderEventContent}
+                        eventClick={this.handleEventClick}
+                        eventsSet={this.handleEvents}
+                    />
+                </div>
+                {this.renderSidebar()}
+                {this.state.selectedEvent && (
+                    <ExampleModal
+                        event={this.state.selectedEvent}
+                        onClose={this.closeModal}
+                    />
+                )}
+            </div>
+        );
+    }
 
-  renderSidebar() {
-    return (
-      <div className="demo-app-sidebar">
-        <div className="demo-app-sidebar-section">
-          <h2>Instructions</h2>
-          <ul>
-            <li>Select dates and you will be prompted to create a new event</li>
-            <li>Drag, drop, and resize events</li>
-            <li>Click an event to delete it</li>
-          </ul>
-        </div>
-        <div className="demo-app-sidebar-section">
-          <label>
-            <input
-              type="checkbox"
-              checked={this.state.weekendsVisible}
-              onChange={this.handleWeekendsToggle}
-            ></input>
-            toggle weekends
-          </label>
-        </div>
-        <div className="demo-app-sidebar-section">
-          <h2>All Events ({this.state.currentEvents.length})</h2>
-          <ul>{this.state.currentEvents.map(renderSidebarEvent)}</ul>
-        </div>
-      </div>
-    );
-  }
+    renderSidebar() {
+        return (
+            <div className='demo-app-sidebar'>
+                <div className='demo-app-sidebar-section'>
+                    <h2>Complete ({this.state.checkedTodos.length})</h2>
+                    <ul>
+                        {this.state.checkedTodos.map(this.renderSidebarEvent)}
+                    </ul>
+                </div>
+                {/* <div className='demo-app-sidebar-section'>
+                    <p>toggle weekends가 있었던 곳</p>
+                    { <label>
+                        <input
+                            type='checkbox'
+                            checked={this.state.weekendsVisible}
+                            onChange={this.handleWeekendsToggle}
+                        ></input>
+                        toggle weekends
+                    </label> }
+                </div> */}
+            </div>
+        );
+    }
 
-  handleWeekendsToggle = () => {
-    this.setState({
-      weekendsVisible: !this.state.weekendsVisible,
-    });
-  };
+    handleDateSelect = (selectInfo: DateSelectArg) => {
+        
+    }
 
-  handleDateSelect = (selectInfo: DateSelectArg) => {
-    const title = prompt("Please enter a new title for your event");
-    const calendarApi = selectInfo.view.calendar;
+    handleEventClick = (clickInfo: EventClickArg) => {
+        this.setState({ selectedEvent: clickInfo.event });
 
-    calendarApi.unselect(); // clear date selection
-
-    if (title) {
-      calendarApi.addEvent({
-        id: createEventId(),
-        title,
-        start: selectInfo.startStr,
-        end: selectInfo.endStr,
-        allDay: selectInfo.allDay,
-      });
     }
   };
 
-  handleEventClick = (clickInfo: EventClickArg) => {
-    if (
-      confirm(
-        `Are you sure you want to delete the event '${clickInfo.event.title}'`
-      )
-    ) {
-      clickInfo.event.remove();
+    handleEvents = (events: EventApi[]) => {
+        this.setState({
+            currentEvents: events,
+        });
+
     }
   };
 
-  handleEvents = (events: EventApi[]) => {
-    this.setState({
-      currentEvents: events,
-    });
-  };
-}
+    closeModal = () => {
+        this.setState({ selectedEvent: null });
+    }
 
-function renderEventContent(eventContent: EventContentArg) {
-  return (
-    <>
-      <b>{eventContent.timeText}</b>
-      <i>{eventContent.event.title}</i>
-    </>
-  );
-}
 
-function renderSidebarEvent(event: EventApi) {
-  return (
-    <li key={event.id}>
-      <b>
-        {formatDate(event.start!, {
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-        })}
-      </b>
-      <i>{event.title}</i>
-    </li>
-  );
+    renderEventContent = (eventContent: EventContentArg) => {
+        const handleCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
+            e.stopPropagation();
+            const checkedTodoId = eventContent.event.id;
+            if (!this.state.checkedTodoIds.includes(checkedTodoId)){
+                this.setState(prevState => ({
+                    checkedTodoIds: [...prevState.checkedTodoIds, checkedTodoId],
+                    checkedTodos: [...prevState.checkedTodos, eventContent.event],
+                }))
+                eventContent.event.remove();
+            }
+        }
+
+        const { extendedProps } = eventContent.event;
+        
+        if (this.state.checkedTodoIds.includes(eventContent.event.id)){
+            return null
+        }
+
+        if (extendedProps.type === 'event'){
+            return (
+                <>
+                    <b>{eventContent.timeText}</b>
+                    <i>{eventContent.event.title}</i>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <input type="checkbox" onClick={handleCheckboxClick}/>
+                    {extendedProps.type === 'todoDue' ? <WiSmallCraftAdvisory /> : null}
+                    <b>{eventContent.timeText}</b>
+                    <i>{eventContent.event.title}</i>
+                </>
+            );
+        }
+    }
+    
+    renderSidebarEvent = (event: EventApi) => {
+        return (
+            <li key={event.id}>
+                <b>{formatDate(event.start!, { year: 'numeric', month: 'short', day: 'numeric' })}</b>
+                <i>{event.title}</i>
+                <VscDiscard/>
+            </li>
+        );
+    }
 }
