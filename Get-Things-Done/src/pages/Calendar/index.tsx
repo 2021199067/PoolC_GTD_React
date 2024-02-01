@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
     EventApi,
@@ -12,7 +11,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import rrulePlugin from '@fullcalendar/rrule';
-import { INITIAL_EVENTS, createEventId } from './event-utils';
+import { INITIAL_EVENTS } from './event-utils';
 import ExampleModal from '../../components/ExampleModal';
 import { VscDiscard } from 'react-icons/vsc'
 import { WiSmallCraftAdvisory } from "react-icons/wi";
@@ -94,14 +93,12 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
     }
 
     handleDateSelect = (selectInfo: DateSelectArg) => {
-        
+
     }
 
     handleEventClick = (clickInfo: EventClickArg) => {
         this.setState({ selectedEvent: clickInfo.event });
-
     }
-  };
 
     handleEvents = (events: EventApi[]) => {
         this.setState({
@@ -109,7 +106,6 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
         });
 
     }
-  };
 
     closeModal = () => {
         this.setState({ selectedEvent: null });
@@ -120,7 +116,7 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
         const handleCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
             e.stopPropagation();
             const checkedTodoId = eventContent.event.id;
-            if (!this.state.checkedTodoIds.includes(checkedTodoId)){
+            if (!this.state.checkedTodoIds.includes(checkedTodoId)) {
                 this.setState(prevState => ({
                     checkedTodoIds: [...prevState.checkedTodoIds, checkedTodoId],
                     checkedTodos: [...prevState.checkedTodos, eventContent.event],
@@ -130,12 +126,12 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
         }
 
         const { extendedProps } = eventContent.event;
-        
-        if (this.state.checkedTodoIds.includes(eventContent.event.id)){
+
+        if (this.state.checkedTodoIds.includes(eventContent.event.id)) {
             return null
         }
 
-        if (extendedProps.type === 'event'){
+        if (extendedProps.type === 'event') {
             return (
                 <>
                     <b>{eventContent.timeText}</b>
@@ -145,7 +141,7 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
         } else {
             return (
                 <>
-                    <input type="checkbox" onClick={handleCheckboxClick}/>
+                    <input type="checkbox" onClick={handleCheckboxClick} />
                     {extendedProps.type === 'todoDue' ? <WiSmallCraftAdvisory /> : null}
                     <b>{eventContent.timeText}</b>
                     <i>{eventContent.event.title}</i>
@@ -153,13 +149,13 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
             );
         }
     }
-    
+
     renderSidebarEvent = (event: EventApi) => {
         return (
             <li key={event.id}>
                 <b>{formatDate(event.start!, { year: 'numeric', month: 'short', day: 'numeric' })}</b>
                 <i>{event.title}</i>
-                <VscDiscard/>
+                <VscDiscard />
             </li>
         );
     }
