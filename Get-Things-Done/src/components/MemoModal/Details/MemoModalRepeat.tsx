@@ -1,5 +1,8 @@
 import { useState } from "react";
 import styles from "./MemoModalRepeat.module.css";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 
 const MemoModalRepeat = () => {
   const [selectedEnd, setSelectedEnd] = useState<string>("");
@@ -62,7 +65,11 @@ const MemoModalRepeat = () => {
         <div className={styles.end}>
           <div>End</div>
           <div className={styles["end-options"]}>
-            <label>
+            <label
+              className={
+                selectedEnd === "Never" ? styles.labelChecked : styles.label
+              }
+            >
               <input
                 type="radio"
                 name="end"
@@ -73,7 +80,11 @@ const MemoModalRepeat = () => {
               />
               Never
             </label>
-            <label>
+            <label
+              className={
+                selectedEnd === "On Date" ? styles.labelChecked : styles.label
+              }
+            >
               <input
                 type="radio"
                 name="end"
@@ -84,7 +95,11 @@ const MemoModalRepeat = () => {
               />
               On Date
             </label>
-            <label>
+            <label
+              className={
+                selectedEnd === "After" ? styles.labelChecked : styles.label
+              }
+            >
               <input
                 type="radio"
                 name="end"
@@ -98,7 +113,14 @@ const MemoModalRepeat = () => {
           </div>
         </div>
         <div className={styles["end-render-area"]}>
-          {selectedEnd === "On Date" && <div>On Date</div>}
+          {selectedEnd === "On Date" && (
+            <div>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DateTimePicker label="Repeat Ends" />
+              </LocalizationProvider>
+            </div>
+          )}
+          {selectedEnd === "After" && <div>After N repetitions</div>}
         </div>
       </div>
     </div>

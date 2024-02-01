@@ -17,6 +17,11 @@
   height: 28px;
 }
 
+.labelChecked {
+  background-color: #ebebeb;
+  /* color: red; */
+}
+
 .radio {
   display: inline-block;
   visibility: hidden;
@@ -27,7 +32,6 @@
 .cycle {
   display: flex;
   justify-content: space-between;
-  height: 36px;
   border-bottom: 1px solid #ebebeb;
 }
 
@@ -35,7 +39,7 @@
   border-radius: 16px;
   border: 1px solid #ebebeb;
   padding: 4px 12px;
-  height: 28px;
+  margin-bottom: 8px;
 }
 
 .end {
