@@ -1,10 +1,10 @@
 import { RRule } from './RRule';
 
 export interface Memo {
-    id: number;
+    id: string;
     title: string;
+    type: 'memo' | 'todo' | 'event';
     note?: string;
-    type: 'temp' | 'todo' | 'event';
     startDate?: Date;
     endDate?: Date;
     repeat?: RRule;

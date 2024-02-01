@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import styles from "./MemoModalProject.module.css";
 import projects from "../../../projectsData.tsx";
+import { Project } from "src/interfaces/Project.ts";
 
-interface Project {
-  id: string;
-  name: string;
-  items?: Project[]; // 선택적 속성, 프로젝트 내 다른 프로젝트를 포함할 수 있음
-}
+//이미 project라는 interface가 있어서 지울게요!
+// interface Project {
+//   id: string;
+//   name: string;
+//   items?: Project[]; // 선택적 속성, 프로젝트 내 다른 프로젝트를 포함할 수 있음
+// }
 
 interface MemoModalProjectProps {
-  onProjectSelect: (icon: string, name: string) => void;
+  onProjectSelect: (icon: string, name: string) => void; //??
 }
 
 const MemoModalProject: React.FC<MemoModalProjectProps> = ({

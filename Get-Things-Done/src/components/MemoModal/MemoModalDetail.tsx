@@ -5,11 +5,11 @@ import MemoModalLocation from "./Details/MemoModalLocation";
 import MemoModalDeadline from "./Details/MemoModalDeadline";
 import MemoModalRepeat from "./Details/MemoModalRepeat";
 
-interface MemoModalDeatilProps {
+interface MemoModalDetailProps {
   selectedType: "Event" | "Todo";
 }
 
-function MemoModalDetail({ selectedType }: MemoModalDeatilProps) {
+function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
   const [selectedDetail, setSelectedDetail] = useState("");
 
   const handleRowClick = (
