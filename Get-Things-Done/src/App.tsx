@@ -1,6 +1,7 @@
 import Layout from './components/Layout';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 // import { useState } from 'react';
+// import { fetchData, addData, updateData, deleteData } from './firestoreFunctions';
 import Inbox from './pages/Inbox';
 import Calendar from './pages/Calendar';
 import Someday from './pages/Someday';
@@ -9,6 +10,8 @@ import Today from './pages/Today';
 import { Todo } from './interfaces/Todo';
 import { Event } from './interfaces/Event';
 import { Project } from './interfaces/Project';
+// import { addDoc, collection } from 'firebase/firestore';
+// import { firestore } from './firebase';
 
 function App() {
   // todos (출력용 예시)
@@ -122,6 +125,30 @@ function App() {
       }
     ],
   }];
+
+  // await addData('todo-list', todos);
+
+  // const updateTodoData = {title: '할일4(수정)'};
+  // const fetchedList = await fetchData('todo-list');
+  // await updateData('todo-list', fetchedList[0].id, updateTodoData);
+  // const updatedList = await fetchData('todo-list');
+
+  // console.log(updatedList);
+  
+  // const addTodo = async () => {
+  //   const todosCollection = collection(firestore, 'todo-list');
+
+  //   try {
+  //     await Promise.all(
+  //       todos.map(async (todo) => {
+  //         const docRef = await addDoc(todosCollection, todo);
+  //         console.log('added succesfully with ID: ', docRef.id);
+  //       }) 
+  //     );
+  //   }catch (error) {
+  //     console.error('Error adding document: ', error);
+  //   }
+  // };
 
   return (
     <Router>
