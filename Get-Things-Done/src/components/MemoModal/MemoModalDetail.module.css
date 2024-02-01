@@ -58,7 +58,7 @@ input:focus {
 
 .container .basic .row .row-selection {
   display: inline-block;
-  visibility: hiddden;
+  visibility: hidden;
   position: absolute;
   width: 100%;
   height: 100%;
