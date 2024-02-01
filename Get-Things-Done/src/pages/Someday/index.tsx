@@ -7,7 +7,7 @@ interface SomedayProps {
 }
 
 const Someday = ({ todos }: SomedayProps) => {
-    const somedayTodos = todos.filter((todo) => todo.type === 'todo' && !todo.date);
+    const somedayTodos = todos.filter((todo) => todo.type === 'todo' && !todo.dueDate);
 
     return (
         <>

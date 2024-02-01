@@ -16,7 +16,7 @@ const Inbox = () => {
 
     return (
         <div className= {styles.wrapper}>
-            <h2> Inbox </h2>
+            <h1> Inbox </h1>
         </div>
     )
 };

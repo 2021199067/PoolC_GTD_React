@@ -1,4 +1,9 @@
+
 #navbar {
-    border: 1px solid navy;
-    width: 150px;
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    background-color: #eee;
+    width: 200px;
+    padding: 30px 20px 40px;
+    line-height: 25px;
 }

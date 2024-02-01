@@ -1,39 +1,54 @@
 import Layout from './components/Layout';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import { useState } from 'react';
 import Inbox from './pages/Inbox';
 import Calendar from './pages/Calendar';
 import Someday from './pages/Someday';
 import Projects from './pages/Projects';
-
+import Today from './pages/Today';
+import { Todo } from './interfaces/Todo';
+import { Event } from './interfaces/Event';
+import { Project } from './interfaces/Project';
 
 function App() {
   // todos (출력용 예시)
-  const todos = [
+  const events: Event[] = [
+    {
+      id:4,
+      title: 'Meet John',
+      type: 'event',
+      startDate: new Date('February 3, 2024 12:00:00'),
+    },
+    {
+      id:5,
+      title: 'PoolC Meeting',
+      type: 'event',
+      startDate: new Date('February 1, 2024 20:00:00'),
+    }
+  ];
+  const todos: Todo[] = [
     {
         id: 1,
-        title: '할일1(date설정x)',
+        title: '할일1(date설정today)',
         type: 'todo',
-        startDate: new Date(),
-        endDate: new Date(),
+        dueDate: new Date(),
     },
     {
         id: 2,
         title: '할일2(date설정o)',
         type: 'todo',
-        date: new Date(),
-        startDate: new Date(),
-        endDate: new Date(),
+        dueDate: new Date('February 3, 2024 23:15:30'),
+        startDate: new Date('February 2, 2024 00:00:00'),
+        endDate: new Date('February 3, 2024 23:00:00'),
     },
     {
         id: 3,
         title: '할일3(date설정x)',
         type: 'todo',
-        startDate: new Date(),
-        endDate: new Date(),
     }
   ];
   // ProjectsData (출력용 예시)
-  const projectsData = [{
+  const projectsData: Project[] = [{
     id: 1,
     name: 'Personal',
     hex: '#f18bda',
@@ -112,8 +127,9 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<Inbox />} />
+          <Route path="/" element={<Today todos = {todos} events={events} />} />
           <Route path="/calendar" element={<Calendar />} />
+          <Route path="/inbox" element={<Inbox />} />
           <Route path="/someday" element={<Someday todos={todos} />} />
           <Route path="/projects" element={<Projects projectsData={projectsData} />} />
         </Routes>
