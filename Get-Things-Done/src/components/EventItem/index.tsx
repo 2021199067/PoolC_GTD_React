@@ -7,7 +7,7 @@ interface EventItemProps {
 const EventItem = ({ event }: EventItemProps) => {
     return (
         <div>
-            {event.label}
+            {event.title}
         </div>
     )
 };
