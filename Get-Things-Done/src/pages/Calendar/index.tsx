@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
     EventApi,
@@ -98,13 +99,17 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
 
     handleEventClick = (clickInfo: EventClickArg) => {
         this.setState({ selectedEvent: clickInfo.event });
+
     }
+  };
 
     handleEvents = (events: EventApi[]) => {
         this.setState({
             currentEvents: events,
         });
+
     }
+  };
 
     closeModal = () => {
         this.setState({ selectedEvent: null });

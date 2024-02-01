@@ -1,9 +1,3 @@
-// 할 거
-
-// 1. project버튼 toggle형식으로 변경해서 누르면 아래로 확장, 기존 프로젝트 목록에서 선택할 수 있게끔 하기
-// 새로운 컴포넌트로 만드는 게 좋을 듯?
-// 그동안 Save버튼은 Done 버튼으로 변경하든지, 없애든지.
-
 // 2. Details 완성하기
 // 지금 None이 label에 가려서 클릭이 안 되는 상황.. 원래는 그러면 안되는데 해결법 찾아야 함.
 // When이랑 Deadline은 유닉스타임으로 받는다 치고, Location은 어쩔 수 없이 그냥 String으로 받아야 하나?
@@ -39,9 +33,17 @@ import MemoModalProject from "./MemoModalProject";
 const MemoModal = forwardRef((_, ref) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [projectOpen, setProjectOpen] = useState(false);
+  const [selectedProject, setSelectedProject] = useState({
+    icon: "inbox",
+    name: "Inbox",
+  });
   const modalRef = useRef(null);
 
   useImperativeHandle(ref, () => modalRef.current);
+
+  const handleProjectSelect = (icon: string, name: string) => {
+    setSelectedProject({ icon, name });
+  };
 
   const handleRadioChange = (e: {
     target: { value: SetStateAction<string> };
@@ -81,8 +83,8 @@ const MemoModal = forwardRef((_, ref) => {
                   checked={projectOpen}
                   onChange={handleCheckboxChange}
                 />
-                <i className="material-icons">inbox</i>
-                <div>Inbox</div>
+                <i className="material-icons">{selectedProject.icon}</i>
+                <div>{selectedProject.name}</div>
               </label>
               <label className={styles.save}>
                 <input type="submit" value="" />
@@ -90,7 +92,9 @@ const MemoModal = forwardRef((_, ref) => {
                 <div>Save</div>
               </label>
             </div>
-            {projectOpen && <MemoModalProject />}
+            {projectOpen && (
+              <MemoModalProject onProjectSelect={handleProjectSelect} />
+            )}
           </div>
         </div>
 
