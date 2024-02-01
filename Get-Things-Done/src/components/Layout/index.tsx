@@ -35,13 +35,13 @@ const Layout = (props: { children: ReactNode }) => {
 
   return (
     <div id="page-wrapper">
-      <h1> Get Things Done </h1>
+      {/* <h1> Get Things Done </h1> */}
       <div id="content-wrapper">
         <NavBar />
-        <main>{props.children}</main>
+        <div id="page-right-wrapper">{props.children}</div>
       </div>
       <div className="add-new-memo">
-        <button onClick={openModal}>+</button>
+        <button id="add-button" onClick={openModal}>+</button>
       </div>
       {isModalOpen && <MemoModal ref={modalRef} />}
     </div>
