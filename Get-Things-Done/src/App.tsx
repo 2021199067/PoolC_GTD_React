@@ -1,6 +1,6 @@
 import Layout from './components/Layout';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-// import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Inbox from './pages/Inbox';
 import Calendar from './pages/Calendar';
@@ -8,14 +8,32 @@ import Someday from './pages/Someday';
 import Projects from './pages/Projects';
 import Today from './pages/Today';
 
-import { fetchAllData } from './firestoreFunctions';
+import { fetchEvents, fetchProjects, fetchTodos } from './firestoreFunctions';
+import { Todo } from './interfaces/Todo';
+import { Event } from './interfaces/Event';
+import { Project } from './interfaces/Project';
+// import { Memo } from './interfaces/Memo';
 
 function App() {
+  const [todos, setTodos] = useState<Todo[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
+  const [projectdb, setProjectDB] = useState<Project[]>([]);
   
-  const todos = fetchAllData('todo-list');
-  const events = fetchAllData('event-list');
-  const projectdb = fetchAllData('project-folders'); 
+  useEffect(() => {
+    fetchTodos().then((result) => setTodos(result));
+  }, []);
+  useEffect(() => {
+    fetchEvents().then((result) => setEvents(result));
+  }, []);
+  useEffect(() => {
+    fetchProjects().then((result) => setProjectDB(result));
+  }, []);
+  
+  // const todos: Todo[] = fetchAllData<Todo>('todo-list');
+  // const events: Event[] = fetchAllData<Event>('event-list');
+  // const projectdb: Project[] = fetchAllData<Project>('project-folders'); 
 
+  
   return (
     <Router>
       <Layout>

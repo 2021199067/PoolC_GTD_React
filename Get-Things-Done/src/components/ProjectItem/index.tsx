@@ -18,7 +18,7 @@ const ProjectItem = ({ item }: ProjectItemProps) => {
                 <h3>{item.name}</h3>
                 <ul>
                     {item.items?.map((subItem) => (
-                        <li key={subItem.id}>
+                        <li key={subItem.id.toISOString()}>
                             <ProjectItem item={subItem} />
                         </li>
                     ))}
@@ -32,7 +32,7 @@ const ProjectItem = ({ item }: ProjectItemProps) => {
                 <TodoItem todo={item as Todo} />
             </div>
         );
-    } else if (item.type === 'temp') {
+    } else if (item.type === 'memo') {
         // Memo
         return (
             <div>

@@ -1,34 +1,87 @@
 import { db } from './firebase';
-import { collection, query, addDoc, getDocs, doc, updateDoc, deleteDoc, where, getDoc } from 'firebase/firestore';
+import { collection, query, addDoc, getDocs, doc, updateDoc, deleteDoc, where, getDoc, Timestamp } from 'firebase/firestore';
 import { Todo } from './interfaces/Todo';
+import { Event } from './interfaces/Event';
 import { Memo } from './interfaces/Memo';
 import { Project } from './interfaces/Project';
 
 type ComparisonOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'array-contains' | 'array-contains-any' | 'in' | 'not-in';
 
-export const fetchAllData = async (collectionName: string) => {
+export const fetchTodos = async() => {
   try {
-    const querySnapshot = await getDocs(collection(db, collectionName));
-    const docs: ( Memo | Todo | Event | Project )[] = querySnapshot.docs.map((doc) => { 
+    const querySnapshot = await getDocs(collection(db, 'todo-list'));
+    const docs = querySnapshot.docs.map((doc) => { 
       const data = doc.data();
-      if (data.type === 'todo') {
-        return { id: doc.id, ...data,} as Todo;
-      } else if (data.type === 'memo') {
-        return {id: doc.id, ...data,} as Memo;
-      } else if (data.type === 'event') {
-        return { id: doc.id, ...data, } as Event;
-      } else if (data.type === 'project') {
-        return { id: doc.id, ...data,} as Project;
-      } else {
-        throw new Error (`Unexpected type: ${data.type}`);
-      }
-    });
+      Object.keys(data).forEach((field) => {
+        if ((data[field]) instanceof Timestamp) {
+          data[field] = (data[field] as Timestamp).toDate();
+        }
+      });
+      return data as Todo;
+    }) as Todo[];
     return docs;
   } catch (error) {
     console.error('Error fetching documents: ', error);
     return [];
   }
-};
+}
+
+export const fetchEvents = async() => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'event-list'));
+    const docs = querySnapshot.docs.map((doc) => { 
+      const data = doc.data();
+      Object.keys(data).forEach((field) => {
+        if ((data[field]) instanceof Timestamp) {
+          console.log('timestamp');
+          data[field] = (data[field] as Timestamp).toDate();
+          console.log(data[field]);
+        }
+      });
+      return data as Event;
+    }) as Event[];
+    return docs;
+  } catch (error) {
+    console.error('Error fetching documents: ', error);
+    return [];
+  }
+}
+
+export const fetchProjects = async() => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'project-folders'));
+    const docs = querySnapshot.docs.map((doc) => { 
+      const data = doc.data();
+      data.id = (data.id as Timestamp).toDate();
+      return data as Project;
+    }) as Project[];
+    return docs;
+  } catch (error) {
+    console.error('Error fetching documents: ', error);
+    return [];
+  }
+}
+
+export const fetchMemos = async() => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'memo-list'));
+    const docs = querySnapshot.docs.map((doc) => { 
+      const data = doc.data();
+      Object.keys(data).forEach((field) => {
+        if ((data[field]) instanceof Timestamp) {
+          console.log('timestamp');
+          data[field] = (data[field] as Timestamp).toDate();
+          console.log(data[field]);
+        }
+      });
+      return data as Memo;
+    }) as Memo[];
+    return docs;
+  } catch (error) {
+    console.error('Error fetching documents: ', error);
+    return [];
+  }
+}
 
 export const fetchData = async (collectionName: string, docId: string) => {
   try {

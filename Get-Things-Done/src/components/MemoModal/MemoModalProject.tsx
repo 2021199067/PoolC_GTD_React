@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./MemoModalProject.module.css";
-import projects from "../../../projectsData.tsx";
+import projects2 from "../../../projectsData2.tsx"; //debugging
 import { Project } from "src/interfaces/Project.ts";
 
-//이미 project라는 interface가 있어서 지울게요!
+//이미 project라는 interface가 있어서 혹시 지워도 되나요?
 // interface Project {
 //   id: string;
 //   name: string;
@@ -11,19 +11,21 @@ import { Project } from "src/interfaces/Project.ts";
 // }
 
 interface MemoModalProjectProps {
-  onProjectSelect: (icon: string, name: string) => void; //??
+  onProjectSelect: (icon: string, name: string) => void;
 }
 
-const MemoModalProject: React.FC<MemoModalProjectProps> = ({
-  onProjectSelect,
-}) => {
+interface ProjectItemProp {
+  icon: string,
+  name: string,
+}
+const MemoModalProject: React.FC<MemoModalProjectProps> = ({onProjectSelect,}) => {
   const [activePath, setActivePath] = useState<string[]>([]);
 
   const handleInboxClick = () => {
     onProjectSelect("inbox", "Inbox");
   };
 
-  const handleProjectClick = (path: string[], project: Project) => {
+  const handleProjectClick = (path: string[], project: ProjectItemProp) => {
     setActivePath((prevPath) => {
       const newPath =
         path.length < prevPath.length && path.every((p, i) => p === prevPath[i])
@@ -31,7 +33,10 @@ const MemoModalProject: React.FC<MemoModalProjectProps> = ({
           : path;
       return newPath;
     });
-    onProjectSelect(project.icon, project.name);
+    //debugging -> (if(project.icon))
+    if(project.icon){
+      onProjectSelect(project.icon, project.name);
+    }
   };
 
   const renderProjects = (projects: Project[], currentPath: string[] = []) => {
@@ -53,12 +58,12 @@ const MemoModalProject: React.FC<MemoModalProjectProps> = ({
             project.items && project.items.some((item) => !item.type);
           return (
             <div
-              key={project.id}
+              key={project.id.toISOString()} //debugging (.toISOString())
               className={`${styles.project} ${
                 hasSubprojects ? styles.branch : styles.leaf
               }`}
               onClick={() =>
-                handleProjectClick([...currentPath, project.id], {
+                handleProjectClick([...currentPath, project.id.toISOString()], { //debugging -> (.toISOString())
                   icon: "folder",
                   name: project.name,
                 })
@@ -77,15 +82,16 @@ const MemoModalProject: React.FC<MemoModalProjectProps> = ({
   };
 
   const renderActiveFloors = () => {
-    let currentProjects = projects;
+    let currentProjects = projects2;
     const floors = [];
 
     floors.push(renderProjects(currentProjects, ["root"]));
 
     activePath.forEach((id, index) => {
-      const project = currentProjects.find((p) => p.id === id);
+      const project = currentProjects.find((p) => p.id.toISOString() === id);
       if (project && project.items) {
-        currentProjects = project.items.filter((item) => !item.type);
+        // currentProjects = project.items.filter((item) => !item.type);
+        currentProjects = project.items.filter((item) => item.type == 'project') as Project[];
         floors.push(
           renderProjects(currentProjects, activePath.slice(0, index + 1))
         );

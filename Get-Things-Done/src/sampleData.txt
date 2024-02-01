@@ -43,6 +43,7 @@ const todos: Todo[] = [
 const projectsData: Project[] = [{
   id: 1,
   name: 'Personal',
+  type: 'project',
   hex: '#f18bda',
   items: [
     {
@@ -51,23 +52,24 @@ const projectsData: Project[] = [{
       title: 'todo예시',
       startDate: new Date(),
       endDate: new Date(),
-    },
+    } as Todo,
     {
-      type: 'temp',
+      type: 'memo',
       id: 102,
-      title: 'memp(temp)예시',
-    },
+      title: 'memo(temp)예시',
+    } as Memo,
     {
       type: 'event',
       id: 103,
       title: 'event예시',
       place: '장소장소',
-    },
+    } as Event,
   ],
-}, {
+} as Project, {
   id: 2,
   name: 'Work',
   hex: '#2ecc71',
+  type: 'project',
   items: [
     {
       type: 'todo',
@@ -75,22 +77,23 @@ const projectsData: Project[] = [{
       title: 'todo예시',
       startDate: new Date(),
       endDate: new Date(),
-    },
+    } as Todo,
     {
-      type: 'temp',
+      type: 'memo',
       id: 202,
       title: 'temp(memo)예시',
-    },
+    } as Memo,
     {
       type: 'event',
       id: 203,
       title: 'event예시',
       place: '장소',
-    },
+    } as Event,
     {
       id: 100,
       name: 'dummy',
       hex: '#1278db',
+      type: 'project',
       items: [
         {
           type: 'todo',
@@ -98,22 +101,24 @@ const projectsData: Project[] = [{
           title: 'todo예시',
           startDate: new Date(),
           endDate: new Date(),
-        },
+        } as Todo,
         {
-          type: 'temp',
+          type: 'memo',
           id: 8,
           title: 'temp(memo)예시',
-        },
+        } as Memo,
         {
           type: 'event',
           id: 7,
           title: 'event예시',
           place: '장소',
-        },
+        } as Event,
       ],
     }
   ],
-}];
+}as Project];
+  
+
 
 todos.map(async (todo) => {
   await addData('todo-list', todo);

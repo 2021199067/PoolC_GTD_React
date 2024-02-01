@@ -4,6 +4,7 @@ import EventItem from '../../components/EventItem';
 import { Todo } from '../../interfaces/Todo';
 import { Event } from '../../interfaces/Event';
 import styles from './index.module.css';
+import { Timestamp } from 'firebase/firestore';
 
 interface TodayProps {
     todos: Todo[];
@@ -61,7 +62,7 @@ const Today = ({ todos, events }: TodayProps) => {
             <br></br>
             <div className={styles.eventBox}>
                 {todayEvents.map((event) => (
-                    <li key={event.id}>
+                    <li key={event.id.toISOString()}>
                         <div className={styles.eventListItem}> 
                             <span> {event.startDate.toLocaleTimeString('en-US', {
                                 hour12: false,
@@ -75,7 +76,7 @@ const Today = ({ todos, events }: TodayProps) => {
             </div>
             <ul>
                 {todayTodos.map((todo) => (
-                    <li key={todo.id}>
+                    <li key={todo.id.toISOString()}>
                         <TodoItem todo={todo} />
                     </li>
                 ))}

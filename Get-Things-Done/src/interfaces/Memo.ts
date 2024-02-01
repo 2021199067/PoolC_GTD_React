@@ -1,9 +1,9 @@
 import { RRule } from './RRule';
 
 export interface Memo {
-    id: string;
+    id: Date; // id = new Date;
     title: string;
-    type: 'memo' | 'todo' | 'event';
+    type: 'memo' | 'todo' | 'event'; //temp => memo
     note?: string;
     startDate?: Date;
     endDate?: Date;

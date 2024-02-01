@@ -3,9 +3,10 @@ import { Memo } from './Memo';
 import { Event } from './Event';
 
 export interface Project {
-    id: string;
+    id: Date;
     name: string;
-    hex: `#${string}`;
     type: 'project';
+    hex: `#${string}`;
+    icon?: string;
     items?: (Project | Todo | Memo | Event)[];
 }
