@@ -1,26 +1,44 @@
 .container {
   width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
-.duration {
+.adjustable-container {
+  height: auto;
+  transition: height 1s ease;
+  overflow: hidden;
+  transition: height 0.5s ease-out;
+}
+
+.label {
+  height: 28px;
+}
+
+.radio {
+  display: inline-block;
+  visibility: hidden;
+  position: absolute;
+  opacity: 0;
+}
+
+.cycle {
   display: flex;
   justify-content: space-between;
   height: 36px;
+  border-bottom: 1px solid #ebebeb;
 }
 
-.duration > * {
-  display: inline-block;
-  height: 16px;
+.cycle > * {
   border-radius: 16px;
   border: 1px solid #ebebeb;
   padding: 4px 12px;
+  height: 28px;
 }
 
 .end {
-  border-top: 1px solid #ebebeb;
-  border-bottom: 1px solid #ebebeb;
   height: 40px;
   display: flex;
   justify-content: space-between;
@@ -34,9 +52,6 @@
   border: 1px solid #ebebeb;
 }
 
-.square {
+.end-render-area {
   width: 100%;
-  height: 50px;
-  background-color: red;
-  opacity: 10%;
 }
