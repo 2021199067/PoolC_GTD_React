@@ -41,7 +41,7 @@ const MemoModal = forwardRef((_, ref) => {
 
   useImperativeHandle(ref, () => modalRef.current);
 
-  const handleProjectSelect = (icon, name) => {
+  const handleProjectSelect = (icon: string, name: string) => {
     setSelectedProject({ icon, name });
   };
 

@@ -2,14 +2,26 @@ import React, { useState } from "react";
 import styles from "./MemoModalProject.module.css";
 import projects from "../../../projectsData.tsx";
 
-const MemoModalProject = ({ onProjectSelect }) => {
-  const [activePath, setActivePath] = useState([]);
+interface Project {
+  id: string;
+  name: string;
+  items?: Project[]; // 선택적 속성, 프로젝트 내 다른 프로젝트를 포함할 수 있음
+}
+
+interface MemoModalProjectProps {
+  onProjectSelect: (icon: string, name: string) => void;
+}
+
+const MemoModalProject: React.FC<MemoModalProjectProps> = ({
+  onProjectSelect,
+}) => {
+  const [activePath, setActivePath] = useState<string[]>([]);
 
   const handleInboxClick = () => {
     onProjectSelect("inbox", "Inbox");
   };
 
-  const handleProjectClick = (path, project) => {
+  const handleProjectClick = (path: string[], project: Project) => {
     setActivePath((prevPath) => {
       const newPath =
         path.length < prevPath.length && path.every((p, i) => p === prevPath[i])
@@ -20,7 +32,7 @@ const MemoModalProject = ({ onProjectSelect }) => {
     onProjectSelect(project.icon, project.name);
   };
 
-  const renderProjects = (projects, currentPath = []) => {
+  const renderProjects = (projects: Project[], currentPath: string[] = []) => {
     // 최상위 floor일 때만 Inbox 항목을 추가합니다.
     const isRootFloor = currentPath.length === 1 && currentPath[0] === "root";
     return (
