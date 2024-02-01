@@ -11,7 +11,7 @@ import { Todo } from './interfaces/Todo';
 import { Event } from './interfaces/Event';
 import { Project } from './interfaces/Project';
 // import { addDoc, collection } from 'firebase/firestore';
-// import { firestore } from './firebase';
+import { db } from './firebase';
 
 function App() {
   // todos (출력용 예시)
