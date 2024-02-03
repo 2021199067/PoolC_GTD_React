@@ -1,0 +1,63 @@
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.adjustable-container {
+  height: auto;
+  transition: height 1s ease;
+  overflow: hidden;
+  transition: height 0.5s ease-out;
+}
+
+.labelChecked {
+  background-color: #ebebeb;
+  /* color: red; */
+}
+
+.radio {
+  display: inline-block;
+  visibility: hidden;
+  position: absolute;
+  opacity: 0;
+}
+
+.cycle {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.cycle > * {
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+  padding: 4px 12px;
+  margin-bottom: 8px;
+}
+
+.end {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.end-options > * {
+  margin-left: 4px;
+  padding: 4px 12px;
+  border-radius: 16px;
+  border: 1px solid #ebebeb;
+}
+
+.end-render-area {
+  width: 100%;
+}
+
+.created-area {
+  padding-top: 16px;
+  text-align: center;
+  border-top: 1px solid #ebebeb;
+}
