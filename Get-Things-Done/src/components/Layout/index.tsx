@@ -43,7 +43,7 @@ const Layout = (props: { children: ReactNode }) => {
       <div className="add-new-memo">
         <button id="add-button" onClick={openModal}>+</button>
       </div>
-      {isModalOpen && <MemoModal ref={modalRef} />}
+      {isModalOpen && <MemoModal ref={modalRef} closeModal = {closeModal}/>}
     </div>
   );
 };

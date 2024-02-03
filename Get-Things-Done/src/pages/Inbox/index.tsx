@@ -1,22 +1,24 @@
 import styles from './index.module.css';
-// import MemoItem from './components/Memo';
-// import { Memo } from './interfaces/MemoData';
+import MemoItem from '../../components/MemoItem';
+import { Memo } from '../../interfaces/Memo';
 
+interface InboxProps {
+    memos: Memo[]
+}
 
-const Inbox = () => {
-    // const [memos, setMemos] = useState<Memo[]>([]);
-  
-    // const addMemo = (content: string) => {
-    //   const newMemo: Memo = {
-    //     id: new Date().getTime(),
-    //     content,
-    //   }
-    //   setMemos([...memos, newMemo]);
-    // }
-
+const Inbox = ( { memos }: InboxProps) => {
+    console.log(memos);
     return (
-        <div className= {styles.wrapper}>
+        <div className= {styles.subpageWrapper}>
             <h1> Inbox </h1>
+            <br></br>
+            <ul>
+                {memos.map((memo) => (
+                    <li key={memo.id.toISOString()}>
+                        <MemoItem memo={memo} />
+                    </li>
+                ))}
+            </ul>
         </div>
     )
 };

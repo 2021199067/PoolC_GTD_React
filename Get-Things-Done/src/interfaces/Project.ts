@@ -7,6 +7,7 @@ export interface Project {
     name: string;
     type: 'project';
     hex: `#${string}`;
-    icon?: string;
+    icon?: string; // debugging 
     items?: (Project | Todo | Memo | Event)[];
+    docRef: string;
 }
