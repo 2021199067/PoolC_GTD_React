@@ -1,5 +1,5 @@
 import { db } from './firebase';
-import { collection, query, addDoc, getDocs, doc, updateDoc, deleteDoc, where, getDoc, Timestamp } from 'firebase/firestore';
+import { collection, query, addDoc, getDocs, doc, updateDoc, deleteDoc, where, getDoc, Timestamp, onSnapshot } from 'firebase/firestore';
 import { Todo } from './interfaces/Todo';
 import { Event } from './interfaces/Event';
 import { Memo } from './interfaces/Memo';
@@ -7,94 +7,102 @@ import { Project } from './interfaces/Project';
 
 type ComparisonOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'array-contains' | 'array-contains-any' | 'in' | 'not-in';
 
-export const fetchTodos = async() => {
+export const fetchMemos= (setList: React.Dispatch<React.SetStateAction<Memo[]>>) => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'todo-list'));
-    const docs = querySnapshot.docs.map((doc) => { 
-      const data = doc.data();
-      Object.keys(data).forEach((field) => {
-        if ((data[field]) instanceof Timestamp) {
-          data[field] = (data[field] as Timestamp).toDate();
+    const unsubscribe = onSnapshot(collection(db, 'memo-list'), (querySnapshot) => {
+      const updatedList = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        if (!('completed' in data)) {
+          data.completed = false;
         }
-      });
-      return data as Todo;
-    }) as Todo[];
-    return docs;
+        Object.keys(data).forEach((field) => {
+          if ((data[field]) instanceof Timestamp) {
+            console.log('timestamp');
+            data[field] = (data[field] as Timestamp).toDate();
+            console.log(data[field]);
+          }
+        });
+        return { docRef: doc.id, ...data} as Memo;
+      }) as Memo[];
+      updatedList.sort((a, b) => a.id.getTime() - b.id.getTime());
+      setList(updatedList);
+    })
+    return unsubscribe;
   } catch (error) {
     console.error('Error fetching documents: ', error);
-    return [];
+    return () => {};
   }
-}
+};
 
-export const fetchEvents = async() => {
+export const fetchTodos= (setList: React.Dispatch<React.SetStateAction<Todo[]>>) => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'event-list'));
-    const docs = querySnapshot.docs.map((doc) => { 
-      const data = doc.data();
-      Object.keys(data).forEach((field) => {
-        if ((data[field]) instanceof Timestamp) {
-          console.log('timestamp');
-          data[field] = (data[field] as Timestamp).toDate();
-          console.log(data[field]);
+    const unsubscribe = onSnapshot(collection(db, 'todo-list'), (querySnapshot) => {
+      const updatedList = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        if (!('completed' in data)) {
+          data.completed = false;
         }
-      });
-      return data as Event;
-    }) as Event[];
-    return docs;
+        Object.keys(data).forEach((field) => {
+          if ((data[field]) instanceof Timestamp) {
+            console.log('timestamp');
+            data[field] = (data[field] as Timestamp).toDate();
+            console.log(data[field]);
+          }
+        });
+        return { docRef: doc.id, ...data} as Todo;
+      }) as Todo[];
+      updatedList.sort((a, b) => a.id.getTime() - b.id.getTime());
+      setList(updatedList);
+    })
+    return unsubscribe;
   } catch (error) {
     console.error('Error fetching documents: ', error);
-    return [];
+    return () => {};
   }
-}
+};
 
-export const fetchProjects = async() => {
+export const fetchEvents= ( setList: React.Dispatch<React.SetStateAction<Event[]>>) => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'project-folders'));
-    const docs = querySnapshot.docs.map((doc) => { 
-      const data = doc.data();
-      data.id = (data.id as Timestamp).toDate();
-      return data as Project;
-    }) as Project[];
-    return docs;
-  } catch (error) {
-    console.error('Error fetching documents: ', error);
-    return [];
-  }
-}
-
-export const fetchMemos = async() => {
-  try {
-    const querySnapshot = await getDocs(collection(db, 'memo-list'));
-    const docs = querySnapshot.docs.map((doc) => { 
-      const data = doc.data();
-      Object.keys(data).forEach((field) => {
-        if ((data[field]) instanceof Timestamp) {
-          console.log('timestamp');
-          data[field] = (data[field] as Timestamp).toDate();
-          console.log(data[field]);
+    const unsubscribe = onSnapshot(collection(db, 'event-list'), (querySnapshot) => {
+      const updatedList = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        if (!('completed' in data)) {
+          data.completed = false;
         }
-      });
-      return data as Memo;
-    }) as Memo[];
-    return docs;
+        Object.keys(data).forEach((field) => {
+          if ((data[field]) instanceof Timestamp) {
+            console.log('timestamp');
+            data[field] = (data[field] as Timestamp).toDate();
+            console.log(data[field]);
+          }
+        });
+        return { docRef: doc.id, ...data} as Event;
+      }) as Event[];
+      updatedList.sort((a, b) => a.id.getTime() - b.id.getTime());
+      setList(updatedList);
+    })
+    return unsubscribe;
   } catch (error) {
     console.error('Error fetching documents: ', error);
-    return [];
+    return () => {};
   }
-}
+};
 
-export const fetchData = async (collectionName: string, docId: string) => {
+export const fetchProjects= (setList: React.Dispatch<React.SetStateAction<Project[]>>) => {
   try {
-    const docRef = doc(db, collectionName, docId);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return docSnap;
-    } else {
-      console.log('No such document!');
-    }
+    const unsubscribe = onSnapshot(collection(db, 'project-folders'), (querySnapshot) => {
+      const updatedList = querySnapshot.docs.map((doc) => {
+        const data = doc.data();
+        data.id = (data.id as Timestamp).toDate();
+        return { docRef: doc.id, ...data} as Project;
+      }) as Project[];
+      updatedList.sort((a, b) => a.id.getTime() - b.id.getTime());
+      setList(updatedList);
+    })
+    return unsubscribe;
   } catch (error) {
-    console.error('Error fetching document: ', error);
-    return -1;
+    console.error('Error fetching documents: ', error);
+    return () => {};
   }
 };
 

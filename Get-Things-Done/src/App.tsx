@@ -8,41 +8,60 @@ import Someday from './pages/Someday';
 import Projects from './pages/Projects';
 import Today from './pages/Today';
 
-import { fetchEvents, fetchProjects, fetchTodos } from './firestoreFunctions';
+import { addData, fetchEvents, fetchMemos, fetchProjects, fetchTodos } from './firestoreFunctions';
 import { Todo } from './interfaces/Todo';
 import { Event } from './interfaces/Event';
 import { Project } from './interfaces/Project';
+import { Memo } from './interfaces/Memo';
 // import { Memo } from './interfaces/Memo';
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [events, setEvents] = useState<Event[]>([]);
-  const [projectdb, setProjectDB] = useState<Project[]>([]);
+  const [memos, setMemos] = useState<Memo[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   
   useEffect(() => {
-    fetchTodos().then((result) => setTodos(result));
+    const unsubscribe = fetchTodos(setTodos);
+    return () =>{
+      unsubscribe();
+    };
   }, []);
   useEffect(() => {
-    fetchEvents().then((result) => setEvents(result));
+    const unsubscribe = fetchEvents(setEvents);
+    return () =>{
+      unsubscribe();
+    };
   }, []);
   useEffect(() => {
-    fetchProjects().then((result) => setProjectDB(result));
+    const unsubscribe = fetchMemos(setMemos);
+    return () =>{
+      unsubscribe();
+    };
+  }, []);
+  useEffect(() => {
+    const unsubscribe = fetchProjects(setProjects);
+    return () =>{
+      unsubscribe();
+    };
   }, []);
   
-  // const todos: Todo[] = fetchAllData<Todo>('todo-list');
-  // const events: Event[] = fetchAllData<Event>('event-list');
-  // const projectdb: Project[] = fetchAllData<Project>('project-folders'); 
+  // useEffect(() => {
+  //   projectlist.map(async (project) => {
+  //     await addData('project-folders', project);
+  //   });
+  // }, []);
 
-  
+ 
   return (
     <Router>
       <Layout>
         <Routes>
           <Route path="/" element={<Today todos = {todos} events={events} />} />
           <Route path="/calendar" element={<Calendar />} />
-          <Route path="/inbox" element={<Inbox />} />
+          <Route path="/inbox" element={<Inbox memos = {memos}/>} />
           <Route path="/someday" element={<Someday todos={todos} />} />
-          <Route path="/projects" element={<Projects projectsData={projectdb} />} />
+          <Route path="/projects" element={<Projects projectsData={projects} />} />
         </Routes>
       </Layout>
     </Router>

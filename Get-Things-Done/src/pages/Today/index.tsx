@@ -4,7 +4,6 @@ import EventItem from '../../components/EventItem';
 import { Todo } from '../../interfaces/Todo';
 import { Event } from '../../interfaces/Event';
 import styles from './index.module.css';
-import { Timestamp } from 'firebase/firestore';
 
 interface TodayProps {
     todos: Todo[];
