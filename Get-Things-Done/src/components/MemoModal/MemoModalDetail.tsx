@@ -11,6 +11,8 @@ interface MemoModalDetailProps {
 
 function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
   const [selectedDetail, setSelectedDetail] = useState("");
+  const [selectedRepeatCycle, setSelectedRepeatCycle] = useState<string>("");
+  const [selectedRepeatEnd, setSelectedRepeatEnd] = useState<string>("");
 
   const handleRowClick = (
     e: React.MouseEvent<HTMLLabelElement>,
@@ -46,7 +48,12 @@ function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
       case "Deadline":
         return <MemoModalDeadline />;
       case "Repeat":
-        return <MemoModalRepeat />;
+        return (
+          <MemoModalRepeat
+            onRepeatCycleChange={setSelectedRepeatCycle}
+            onRepeatEndChange={setSelectedRepeatEnd}
+          />
+        );
       default:
         return <div></div>;
     }
@@ -70,7 +77,16 @@ function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
             />
             <div className={styles.title}>{option}: </div>
             <div className={styles.input}>
-              <input type="text" placeholder="None" />
+              {option === "Repeat" ? (
+                <input
+                  type="text"
+                  readOnly
+                  value={`${selectedRepeatCycle}${selectedRepeatEnd}`}
+                  placeholder="None"
+                />
+              ) : (
+                <input type="text" placeholder="None" />
+              )}
             </div>
             <div className={styles["show-details"]}>
               <i className="material-icons">chevron_right</i>
