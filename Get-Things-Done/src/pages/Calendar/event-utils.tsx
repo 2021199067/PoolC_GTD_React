@@ -11,18 +11,18 @@ const todoData: Todo[] = [
         title: "Todo 1(1.14~1.16, 1.19)",
         note: "This is Todo 1",
         type: "todo",
-        startDate: new Date(2024,0,15),
-        endDate: new Date(2024,0,17),
-        dueDate: new Date(2024,0,20),
+        startDate: new Date(2024, 0, 15),
+        endDate: new Date(2024, 0, 17),
+        dueDate: new Date(2024, 0, 20),
     },
     {
         id: 2,
         title: "Todo 2(1.16~1.19, 1.28)",
         note: "This is Todo 2",
         type: "todo",
-        startDate: new Date(2024,0,17),
-        endDate: new Date(2024,0,20),
-        dueDate: new Date(2024,0,29)
+        startDate: new Date(2024, 0, 17),
+        endDate: new Date(2024, 0, 20),
+        dueDate: new Date(2024, 0, 29)
     },
     {
         id: 3,
@@ -39,8 +39,8 @@ const todoData: Todo[] = [
         note: "This is Todo 4",
         type: "todo",
         startDate: undefined, // Start date not provided
-        endDate: new Date(2024,0,17),
-        dueDate: new Date(2024,0,30)
+        endDate: new Date(2024, 0, 17),
+        dueDate: new Date(2024, 0, 30)
     }
 ];
 // sample data for event
@@ -50,8 +50,8 @@ const eventData: Event[] = [
         title: "Event 1(1.12~1.15)",
         note: "This is Event 1",
         type: "event",
-        startDate: new Date(2024,0,13),
-        endDate: new Date(2024,0,16),
+        startDate: new Date(2024, 0, 13),
+        endDate: new Date(2024, 0, 16),
         place: "Location 1"
     },
     {
@@ -71,8 +71,8 @@ const eventData: Event[] = [
         title: "Event 3(1.24~1.27)",
         note: "This is Event 3",
         type: "event",
-        startDate: new Date(2024,0,25),
-        endDate: new Date(2024,0,28),
+        startDate: new Date(2024, 0, 25),
+        endDate: new Date(2024, 0, 28),
         place: "Location 3"
     },
     {
@@ -80,8 +80,8 @@ const eventData: Event[] = [
         title: "Event 4(1.15~1.17)",
         note: "This is Event 4",
         type: "event",
-        startDate: new Date(2024,0,16),
-        endDate: new Date(2024,0,18),
+        startDate: new Date(2024, 0, 16),
+        endDate: new Date(2024, 0, 18),
         place: "Location 4"
     },
     {
@@ -89,12 +89,12 @@ const eventData: Event[] = [
         title: "Event 5(1.30, 매일반복~2.1)",
         note: "This is Event 2",
         type: "event",
-        startDate: new Date(2024,0,31),
+        startDate: new Date(2024, 0, 31),
         endDate: undefined, // End date not provided
         place: "Location 2",
         repeat: {
             freq: 'daily',
-            dtstart: new Date(2024,0,31),
+            dtstart: new Date(2024, 0, 31),
             until: '2024-02-02'
         }
     },
@@ -103,7 +103,7 @@ const eventData: Event[] = [
         title: "1차 제출!",
         note: "This is Event 2",
         type: "event",
-        startDate: new Date(2024,1,5),
+        startDate: new Date(2024, 1, 5),
         endDate: undefined, // End date not provided
         place: "동방",
     },
@@ -119,33 +119,33 @@ export function addOneDay(date: Date): Date {
 
 export function parseTodointoEventInput(todos: Todo[]): EventInput[] {
     const eventInputs: EventInput[] = [];
-    
+
     todos.forEach(todo => {
         eventInputs.push({
-            id: todo.id.toString()+'due',
+            id: todo.id.toString() + 'due',
             title: todo.title,
             start: todo.dueDate.toISOString().replace(/T.*$/, ''),
             end: todo.dueDate.toISOString().replace(/T.*$/, ''),
             allDay: true,
-            extendedProps: {type: 'todoDue', checked: false},
-            backgroundColor: '#ecc',
+            extendedProps: { type: 'todoDue', checked: false },
+            backgroundColor: '#ffe5e5',
             textColor: '#444',
             borderColor: 'white',
         });
 
         if (todo.startDate && todo.endDate) {
             eventInputs.push({
-                id: todo.id.toString()+'proc',
+                id: todo.id.toString() + 'proc',
                 title: todo.title,
                 start: todo.startDate.toISOString().replace(/T.*$/, ''),
                 end: addOneDay(todo.endDate).toISOString().replace(/T.*$/, ''),
-                extendedProps: {type: 'todoProcess', checked: false},
+                extendedProps: { type: 'todoProcess', checked: false },
                 backgroundColor: '#eee',
                 textColor: '#444',
                 borderColor: 'white',
             });
         }
-        
+
     })
     return eventInputs;
 }
@@ -158,9 +158,10 @@ export function parseEventIntoEventInput(events: Event[]): EventInput[] {
             id: event.id.toString(),
             title: event.title,
             start: event.startDate.toISOString().replace(/T.*$/, ''),
-            extendedProps: {type: 'event'},
-            backgroundColor: '#bc77ee',
+            extendedProps: { type: 'event' },
+            backgroundColor: '#ffb',
             borderColor: 'white',
+            textColor: '#333'
         };
 
         if (event.endDate) {
