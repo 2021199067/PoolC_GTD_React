@@ -5,8 +5,8 @@ export interface Memo {
     title: string;
     type: 'memo' | 'todo' | 'event'; //temp => memo
     note?: string;
-    startDate?: Date;
-    endDate?: Date;
+    startDate?: Date | null;
+    endDate?: Date | null;
     repeat?: RRule;
     completed: Boolean;
     docRef?: string;

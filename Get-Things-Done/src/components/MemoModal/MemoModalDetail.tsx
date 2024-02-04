@@ -7,9 +7,10 @@ import MemoModalRepeat from "./Details/MemoModalRepeat";
 
 interface MemoModalDetailProps {
   selectedType: "Event" | "Todo";
+  updateDetails: (newdetails: {[key: string]: string}) => void;
 }
 
-function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
+function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) {
   const [selectedDetail, setSelectedDetail] = useState("");
 
   const handleRowClick = (
@@ -30,6 +31,7 @@ function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
     }
 
     setSelectedDetail(id);
+    updateDetails({ [id]: ""});
   };
 
   const detailOptions: { [key: string]: string[] } = {
@@ -40,7 +42,7 @@ function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
   const renderDetails = () => {
     switch (selectedDetail) {
       case "When":
-        return <MemoModalWhen />;
+        return <MemoModalWhen setWhen={() => setSelectedDetail}/>;
       case "Location":
         return <MemoModalLocation />;
       case "Deadline":
@@ -70,7 +72,7 @@ function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
             />
             <div className={styles.title}>{option}: </div>
             <div className={styles.input}>
-              <input type="text" placeholder="None" />
+              <input type="text" placeholder="None" onChange={(e) => updateDetails( { [selectedDetail]: e.target.value })} />
             </div>
             <div className={styles["show-details"]}>
               <i className="material-icons">chevron_right</i>

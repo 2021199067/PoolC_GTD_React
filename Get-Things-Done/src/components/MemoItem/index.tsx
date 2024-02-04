@@ -6,17 +6,8 @@ interface MemoItemProps {
 };
 
 const MemoItem = ( { memo }: MemoItemProps) => {
-    const handleMemoComplete = () => {
-        if(memo.docRef) updateData('memo-list', memo.docRef, {
-            completed: !memo.completed,
-        });
-    }
-
     return (
-        <div className={styles.itemWrapper}> 
-            <button className={styles.completeButton} onClick={handleMemoComplete}>
-            {(memo.completed ? "✓" : "")}
-            </button>
+        <div> 
             <p>{memo.title}</p> 
         </div>
     );

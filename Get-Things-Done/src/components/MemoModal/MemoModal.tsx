@@ -46,6 +46,14 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
   });
   const modalRef = useRef(null);
 
+  const [details, setDetails] = useState({
+    start: null,
+    end: null,
+    location: "",
+    repeat: "",
+    deadline: null,
+  });
+
   useImperativeHandle(ref, () => modalRef.current);
 
   const handleProjectSelect = (icon: string, name: string) => {
@@ -74,18 +82,32 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
       const newEvent: Event = {
         ...newMemo,
         type: 'event',
+        startDate: details.start,
+        endDate: details.end,
+        place: details.location,
+        repeat: {freq: details.repeat},
       }
       addData('event-list', newEvent);
     } else if (selectedOption === "Todo") {
       const newTodo: Todo = {
         ...newMemo,
         type: 'todo',
+        startDate: details.start,
+        endDate: details.end,
+        dueDate: details.deadline,
+        repeat: {freq: details.repeat},
       }
       addData('todo-list', newTodo);
     } else {
       addData('memo-list', newMemo);
     }
     closeModal();
+  }
+  const handleDetailsChange = (newdetails: { [key : string]: string }) => {
+    setDetails({
+      ...details,
+      ...newdetails,
+    });
   }
   return (
     <>
@@ -161,10 +183,10 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
           className={`${styles.option} ${selectedOption ? styles.visible : ""}`}
         >
           {selectedOption === "Event" && (
-            <MemoModalDetail selectedType={selectedOption} />
+            <MemoModalDetail selectedType={selectedOption} updateDetails={handleDetailsChange} />
           )}
           {selectedOption === "Todo" && (
-            <MemoModalDetail selectedType={selectedOption} />
+            <MemoModalDetail selectedType={selectedOption} updateDetails={handleDetailsChange}/>
           )}
         </div>
       </div>
