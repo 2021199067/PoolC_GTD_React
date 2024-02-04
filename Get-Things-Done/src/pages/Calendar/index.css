@@ -27,3 +27,12 @@
   max-width: 1100px;
   margin: 0 auto;
 }
+
+.complete small{
+  margin: 0 7px;
+  color: grey;
+}
+
+.undo:hover{
+  cursor: pointer;
+}

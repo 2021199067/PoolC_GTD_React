@@ -29,8 +29,15 @@ import {
 import styles from "./MemoModal.module.css";
 import MemoModalDetail from "./MemoModalDetail";
 import MemoModalProject from "./MemoModalProject";
-
-const MemoModal = forwardRef((_, ref) => {
+import { addData } from "../../firestoreFunctions";
+import { Event } from "../../interfaces/Event"
+import { Todo } from "../../interfaces/Todo"
+interface MemoModalProps {
+  closeModal: () => void;
+}
+const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
+  const [title, setTitle] = useState("");
+  const [note, setNote] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
   const [projectOpen, setProjectOpen] = useState(false);
   const [selectedProject, setSelectedProject] = useState({
@@ -55,17 +62,44 @@ const MemoModal = forwardRef((_, ref) => {
     setProjectOpen(!projectOpen);
   };
 
+  const handleAddItem = () => {
+    const newMemo = {
+      id: new Date(),
+      title,
+      type: 'memo',
+      note,
+      completed: false,
+    }
+    if (selectedOption === "Event") {
+      const newEvent: Event = {
+        ...newMemo,
+        type: 'event',
+      }
+      addData('event-list', newEvent);
+    } else if (selectedOption === "Todo") {
+      const newTodo: Todo = {
+        ...newMemo,
+        type: 'todo',
+      }
+      addData('todo-list', newTodo);
+    } else {
+      addData('memo-list', newMemo);
+    }
+    closeModal();
+  }
   return (
     <>
       <div ref={modalRef} className={`${styles.MemoModal} memo-modal`}>
         <div className={styles.default}>
           <input
             type="text"
+            onChange={(event) => setTitle(event.target.value)}
             className={styles["new-activity-title"]}
             placeholder="New Activity..."
           />
           <input
             type="text"
+            onChange={(event) => setNote(event.target.value)}
             className={styles["new-activity-notes"]}
             placeholder="Notes"
           />
@@ -87,7 +121,7 @@ const MemoModal = forwardRef((_, ref) => {
                 <div>{selectedProject.name}</div>
               </label>
               <label className={styles.save}>
-                <input type="submit" value="" />
+                <input type="submit" onClick={handleAddItem} value="" />
                 <i className="material-icons">save</i>
                 <div>Save</div>
               </label>

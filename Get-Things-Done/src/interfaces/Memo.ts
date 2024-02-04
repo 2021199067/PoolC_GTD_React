@@ -8,4 +8,6 @@ export interface Memo {
     startDate?: Date;
     endDate?: Date;
     repeat?: RRule;
+    completed: Boolean;
+    docRef?: string;
 }
