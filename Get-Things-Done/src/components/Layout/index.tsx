@@ -1,37 +1,18 @@
-import { ReactNode, useState, useEffect, useRef } from "react";
+import { ReactNode, useState } from "react";
 import NavBar from "../NavBar";
 import MemoModal from "../MemoModal/MemoModal";
 import "./index.css";
 
 const Layout = (props: { children: ReactNode }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const modalRef = useRef<HTMLElement | null>(null);
 
   const openModal = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  useEffect(() => {
-    if (!isModalOpen) return;
-
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        modalRef.current &&
-        !modalRef.current.contains(event.target as Node)
-      ) {
-        closeModal();
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isModalOpen]);
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  // };
 
   return (
     <div id="page-wrapper">
@@ -41,9 +22,11 @@ const Layout = (props: { children: ReactNode }) => {
         <div id="page-right-wrapper">{props.children}</div>
       </div>
       <div className="add-new-memo">
-        <button id="add-button" onClick={openModal}>+</button>
+        <button id="add-button" onClick={openModal}>
+          +
+        </button>
       </div>
-      {isModalOpen && <MemoModal ref={modalRef} closeModal = {closeModal}/>}
+      {isModalOpen && <MemoModal />}
     </div>
   );
 };
