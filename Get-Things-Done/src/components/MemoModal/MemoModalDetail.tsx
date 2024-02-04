@@ -9,6 +9,7 @@ import MemoModalRepeat from "./Details/MemoModalRepeat";
 interface MemoModalDetailProps {
   selectedType: "Event" | "Todo";
   updateDetails: (newdetails: {[key: string]: string}) => void;
+
 }
 
 function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) {
@@ -38,7 +39,7 @@ function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) 
     }
 
     setSelectedDetail(id);
-    updateDetails({ [id]: ""});
+    updateDetails( {  [id]: ""});
   };
 
   const detailOptions: { [key: string]: string[] } = {
@@ -49,16 +50,12 @@ function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) 
   const renderDetails = () => {
     switch (selectedDetail) {
       case "When":
-<<<<<<< HEAD
-        return <MemoModalWhen setWhen={() => setSelectedDetail}/>;
-=======
         return (
           <MemoModalWhen
             onWhenStartChange={setSelectedWhenStart}
             onWhenEndChange={setSelectedWhenEnd}
           />
         );
->>>>>>> 69acccff0d7f2b9b1c4161568de4b665298baa48
       case "Location":
         return <MemoModalLocation />;
       case "Deadline":
@@ -92,10 +89,6 @@ function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) 
               id={option}
             />
             <div className={styles.title}>{option}: </div>
-<<<<<<< HEAD
-            <div className={styles.input}>
-              <input type="text" placeholder="None" onChange={(e) => updateDetails( { [selectedDetail]: e.target.value })} />
-=======
             <div className={styles["user-input"]}>
               {option === "When" ? (
                 <div className={styles.text}>
@@ -110,9 +103,8 @@ function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) 
                     : `${selectedRepeatCycle}, Ends: ${selectedRepeatEnd}`}
                 </div>
               ) : (
-                <input type="text" placeholder="None" />
+                <input type="text" placeholder="None" onChange={(e) => updateDetails( { [selectedDetail]: e.target.value })}/>
               )}
->>>>>>> 69acccff0d7f2b9b1c4161568de4b665298baa48
             </div>
             <div className={styles["show-details"]}>
               <i className="material-icons">chevron_right</i>
