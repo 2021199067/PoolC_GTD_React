@@ -30,8 +30,8 @@ import styles from "./MemoModal.module.css";
 import MemoModalDetail from "./MemoModalDetail";
 import MemoModalProject from "./MemoModalProject";
 import { addData } from "../../firestoreFunctions";
-import { Event } from "../../interfaces/Event"
-import { Todo } from "../../interfaces/Todo"
+import { Event } from "../../interfaces/Event";
+import { Todo } from "../../interfaces/Todo";
 interface MemoModalProps {
   closeModal: () => void;
 }
@@ -74,41 +74,41 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
     const newMemo = {
       id: new Date(),
       title,
-      type: 'memo',
+      type: "memo",
       note,
       completed: false,
-    }
+    };
     if (selectedOption === "Event") {
       const newEvent: Event = {
         ...newMemo,
-        type: 'event',
+        type: "event",
         startDate: details.start,
         endDate: details.end,
         place: details.location,
-        repeat: {freq: details.repeat},
-      }
-      addData('event-list', newEvent);
+        repeat: { freq: details.repeat },
+      };
+      addData("event-list", newEvent);
     } else if (selectedOption === "Todo") {
       const newTodo: Todo = {
         ...newMemo,
-        type: 'todo',
+        type: "todo",
         startDate: details.start,
         endDate: details.end,
         dueDate: details.deadline,
-        repeat: {freq: details.repeat},
-      }
-      addData('todo-list', newTodo);
+        repeat: { freq: details.repeat },
+      };
+      addData("todo-list", newTodo);
     } else {
-      addData('memo-list', newMemo);
+      addData("memo-list", newMemo);
     }
     closeModal();
-  }
-  const handleDetailsChange = (newdetails: { [key : string]: string }) => {
+  };
+  const handleDetailsChange = (newdetails: { [key: string]: string }) => {
     setDetails({
       ...details,
       ...newdetails,
     });
-  }
+  };
   return (
     <>
       <div ref={modalRef} className={`${styles.MemoModal} memo-modal`}>
@@ -145,7 +145,7 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
               <label className={styles.save}>
                 <input type="submit" onClick={handleAddItem} value="" />
                 <i className="material-icons">save</i>
-                <div>Save</div>
+                <div>Saaave</div>
               </label>
             </div>
             {projectOpen && (
@@ -183,10 +183,16 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
           className={`${styles.option} ${selectedOption ? styles.visible : ""}`}
         >
           {selectedOption === "Event" && (
-            <MemoModalDetail selectedType={selectedOption} updateDetails={handleDetailsChange} />
+            <MemoModalDetail
+              selectedType={selectedOption}
+              updateDetails={handleDetailsChange}
+            />
           )}
           {selectedOption === "Todo" && (
-            <MemoModalDetail selectedType={selectedOption} updateDetails={handleDetailsChange}/>
+            <MemoModalDetail
+              selectedType={selectedOption}
+              updateDetails={handleDetailsChange}
+            />
           )}
         </div>
       </div>
