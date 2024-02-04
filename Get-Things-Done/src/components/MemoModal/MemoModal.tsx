@@ -145,7 +145,7 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
               <label className={styles.save}>
                 <input type="submit" onClick={handleAddItem} value="" />
                 <i className="material-icons">save</i>
-                <div>Saave</div>
+                <div>Saaave</div>
               </label>
             </div>
             {projectOpen && (
