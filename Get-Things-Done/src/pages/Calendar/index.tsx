@@ -33,11 +33,14 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
         checkedTodoIds: [],
     };
 
+    calendarRef = React.createRef()
+
     render() {
         return (
             <div className='demo-app'>
                 <div className='demo-app-main'>
                     <FullCalendar
+                        ref={this.calendarRef}
                         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, rrulePlugin]}
                         headerToolbar={{
                             left: 'prev,next today',
@@ -113,6 +116,7 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
 
 
     renderEventContent = (eventContent: EventContentArg) => {
+        
         const handleCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
             e.stopPropagation();
             const checkedTodoId = eventContent.event.id;
@@ -149,13 +153,26 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
             );
         }
     }
+    handleUndo = (event: EventApi) => {
+        let calendarApi = this.calendarRef.current.getApi();
+
+        calendarApi.addEvent(event);
+
+        const updatedCheckedTodos = this.state.checkedTodos.filter(e => e.id !== event.id);
+        const updatedCheckedTodoIds = this.state.checkedTodoIds.filter(id => id !== event.id);
+
+        this.setState({
+            checkedTodos: updatedCheckedTodos,
+            checkedTodoIds: updatedCheckedTodoIds,
+        }, () => {calendarApi.render()});
+    };
 
     renderSidebarEvent = (event: EventApi) => {
         return (
-            <li key={event.id}>
-                <b>{formatDate(event.start!, { year: 'numeric', month: 'short', day: 'numeric' })}</b>
-                <i>{event.title}</i>
-                <VscDiscard />
+            <li className="complete" key={event.id}>
+                <del>{event.title}</del>
+                <small>{formatDate(new Date(), { month: 'short', day: 'numeric' })}</small>
+                <VscDiscard className="undo" onClick={() => this.handleUndo(event)}/>
             </li>
         );
     }

@@ -4,10 +4,10 @@ import { Dictionary } from '@fullcalendar/core/internal';
 
 interface ExampleModalProps {
     event: {
-        id: number;
+        //id: number;
         title: string;
         extendedProps: Dictionary;
-        // start: Date;
+        start: Date;
         // Add any additional event properties here
     };
     onClose: () => void;
@@ -25,9 +25,9 @@ const ExampleModal: React.FC<ExampleModalProps> = ({ event, onClose }) => {
             <div className={styles.content}>
                 <span className={styles.close} onClick={onClose}>&times;</span>
                 <h2>{eventType} Details</h2>
-                <p><strong>id:</strong> {event.id}</p>
+                {/* <p><strong>id:</strong> {event.id}</p> */}
                 <p><strong>Title:</strong> {event.title}</p>
-                {/* <p><strong>Start:</strong> {event.start.toLocaleString()}</p> */}
+                <p><strong>Start:</strong> {event.start.toLocaleString()}</p>
             </div>
         </div>
     );

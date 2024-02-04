@@ -1,4 +1,4 @@
-//import styles from './index.module.css';
+import styles from './index.module.css';
 import { Project } from '../../interfaces/Project';
 import ProjectItem from '../../components/ProjectItem';
 
@@ -9,7 +9,9 @@ interface ProjectsProps {
 const Projects = ({ projectsData }: ProjectsProps) => {
     const renderProject = (project: Project) => (
         <div key={project.id}>
-            <button style={{ backgroundColor: project.hex }}>{project.name}</button>
+            <button className={styles.projectButton} style={{ backgroundColor: project.hex }}>
+                {project.name}
+            </button>
             {project.items?.map((item) => (
                 'items' in item ? (
                     <div key={item.id} style={{ marginLeft: '20px' }}>
