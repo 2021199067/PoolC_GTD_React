@@ -70,11 +70,11 @@ input:focus {
   padding-left: 10px;
 }
 
-.container .basic .row .input {
+.container .basic .row .user-input {
   width: 68%;
 }
 
-.container .basic .row .input input {
+.container .basic .row .user-input .text {
   width: 100%;
   background-color: transparent;
 }

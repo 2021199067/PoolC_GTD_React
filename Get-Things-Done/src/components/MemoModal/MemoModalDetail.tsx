@@ -4,6 +4,7 @@ import MemoModalWhen from "./Details/MemoModalWhen";
 import MemoModalLocation from "./Details/MemoModalLocation";
 import MemoModalDeadline from "./Details/MemoModalDeadline";
 import MemoModalRepeat from "./Details/MemoModalRepeat";
+// import { Dayjs } from "dayjs";
 
 interface MemoModalDetailProps {
   selectedType: "Event" | "Todo";
@@ -11,6 +12,10 @@ interface MemoModalDetailProps {
 
 function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
   const [selectedDetail, setSelectedDetail] = useState("");
+
+  const [selectedWhenStart, setSelectedWhenStart] = useState<string>("");
+  const [selectedWhenEnd, setSelectedWhenEnd] = useState<string>("");
+
   const [selectedRepeatCycle, setSelectedRepeatCycle] = useState<string>("");
   const [selectedRepeatEnd, setSelectedRepeatEnd] = useState<string>("");
 
@@ -42,7 +47,12 @@ function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
   const renderDetails = () => {
     switch (selectedDetail) {
       case "When":
-        return <MemoModalWhen />;
+        return (
+          <MemoModalWhen
+            onWhenStartChange={setSelectedWhenStart}
+            onWhenEndChange={setSelectedWhenEnd}
+          />
+        );
       case "Location":
         return <MemoModalLocation />;
       case "Deadline":
@@ -76,14 +86,19 @@ function MemoModalDetail({ selectedType }: MemoModalDetailProps) {
               id={option}
             />
             <div className={styles.title}>{option}: </div>
-            <div className={styles.input}>
-              {option === "Repeat" ? (
-                <input
-                  type="text"
-                  readOnly
-                  value={`${selectedRepeatCycle}${selectedRepeatEnd}`}
-                  placeholder="None"
-                />
+            <div className={styles["user-input"]}>
+              {option === "When" ? (
+                <div className={styles.text}>
+                  {selectedWhenStart === "" && selectedWhenEnd === ""
+                    ? "None"
+                    : `${selectedWhenStart} ~ ${selectedWhenEnd}`}
+                </div>
+              ) : option === "Repeat" ? (
+                <div className={styles.text}>
+                  {selectedRepeatCycle === "" && selectedRepeatEnd === ""
+                    ? "None"
+                    : `${selectedRepeatCycle}, Ends: ${selectedRepeatEnd}`}
+                </div>
               ) : (
                 <input type="text" placeholder="None" />
               )}

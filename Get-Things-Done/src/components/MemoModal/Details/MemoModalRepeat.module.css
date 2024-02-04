@@ -52,12 +52,14 @@
   border: 1px solid #ebebeb;
 }
 
-.end-render-area {
-  width: 100%;
-}
-
 .created-area {
+  width: 100%;
   padding-top: 16px;
   text-align: center;
   border-top: 1px solid #ebebeb;
 }
+
+/* .created-area input {
+  width: 40px;
+  text-align: right;
+} */

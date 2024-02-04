@@ -3,11 +3,11 @@ import styles from "./MemoModalRepeat.module.css";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
-import dayjs, { Dayjs } from "dayjs";
+import { Dayjs } from "dayjs";
 
 interface Props {
-  onRepeatCycleChange: (cycle: string) => void;
-  onRepeatEndChange: (end: string) => void;
+  onRepeatCycleChange: (value: string) => void;
+  onRepeatEndChange: (value: string) => void;
 }
 
 const MemoModalRepeat: React.FC<Props> = ({
@@ -25,13 +25,11 @@ const MemoModalRepeat: React.FC<Props> = ({
   const handleEndChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedRepeatEnd(event.target.value);
     onRepeatEndChange(event.target.value);
-    console.log(event.target.value);
   };
   const handleDateChange = (newValue: Dayjs | null) => {
     setSelectedDate(newValue);
     const formattedDate = newValue ? newValue.format("YY/MM/DD HH:mm") : "";
-    setSelectedRepeatEnd(`On Date: ${formattedDate}`);
-    onRepeatEndChange(`On Date: ${formattedDate}`);
+    onRepeatEndChange(`${formattedDate}`);
   };
 
   return (
@@ -180,25 +178,40 @@ const MemoModalRepeat: React.FC<Props> = ({
             </label>
           </div>
         </div>
-        <div className={styles["end-render-area"]}>
+        <div className={styles["created-area"]}>
           {selectedRepeatEnd === "On Date" && (
-            <div className={styles["created-area"]}>
-              <LocalizationProvider
-                dateAdapter={AdapterDayjs}
-                dateFormats={{ monthShort: `M` }}
-              >
-                <DateTimePicker
-                  sx={{ width: 1, boxSizing: 50, fontSize: 8 }}
-                  format="YY/MM/DD HH:mm A"
-                  label="Repeat Ends"
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  showDaysOutsideCurrentMonth
-                />
-              </LocalizationProvider>
+            <LocalizationProvider
+              dateAdapter={AdapterDayjs}
+              dateFormats={{ monthShort: `M` }}
+            >
+              <DateTimePicker
+                sx={{ width: 1, boxSizing: 50, fontSize: 8 }}
+                format="YY/MM/DD HH:mm"
+                label="Repeat Ends"
+                value={selectedDate}
+                onChange={handleDateChange}
+                showDaysOutsideCurrentMonth
+              />
+            </LocalizationProvider>
+          )}
+          {selectedRepeatEnd === "After" && (
+            <div>
+              After{" "}
+              <select name="number" id="repetitions">
+                <option value="select">N</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>{" "}
+              repetitions
             </div>
           )}
-          {selectedRepeatEnd === "After" && <div>After N repetitions</div>}
         </div>
       </div>
     </div>
