@@ -4,6 +4,7 @@ import MemoModalWhen from "./Details/MemoModalWhen";
 import MemoModalLocation from "./Details/MemoModalLocation";
 import MemoModalDeadline from "./Details/MemoModalDeadline";
 import MemoModalRepeat from "./Details/MemoModalRepeat";
+// import { Dayjs } from "dayjs";
 
 interface MemoModalDetailProps {
   selectedType: "Event" | "Todo";
@@ -12,6 +13,12 @@ interface MemoModalDetailProps {
 
 function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) {
   const [selectedDetail, setSelectedDetail] = useState("");
+
+  const [selectedWhenStart, setSelectedWhenStart] = useState<string>("");
+  const [selectedWhenEnd, setSelectedWhenEnd] = useState<string>("");
+
+  const [selectedRepeatCycle, setSelectedRepeatCycle] = useState<string>("");
+  const [selectedRepeatEnd, setSelectedRepeatEnd] = useState<string>("");
 
   const handleRowClick = (
     e: React.MouseEvent<HTMLLabelElement>,
@@ -42,13 +49,27 @@ function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) 
   const renderDetails = () => {
     switch (selectedDetail) {
       case "When":
+<<<<<<< HEAD
         return <MemoModalWhen setWhen={() => setSelectedDetail}/>;
+=======
+        return (
+          <MemoModalWhen
+            onWhenStartChange={setSelectedWhenStart}
+            onWhenEndChange={setSelectedWhenEnd}
+          />
+        );
+>>>>>>> 69acccff0d7f2b9b1c4161568de4b665298baa48
       case "Location":
         return <MemoModalLocation />;
       case "Deadline":
         return <MemoModalDeadline />;
       case "Repeat":
-        return <MemoModalRepeat />;
+        return (
+          <MemoModalRepeat
+            onRepeatCycleChange={setSelectedRepeatCycle}
+            onRepeatEndChange={setSelectedRepeatEnd}
+          />
+        );
       default:
         return <div></div>;
     }
@@ -71,8 +92,27 @@ function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) 
               id={option}
             />
             <div className={styles.title}>{option}: </div>
+<<<<<<< HEAD
             <div className={styles.input}>
               <input type="text" placeholder="None" onChange={(e) => updateDetails( { [selectedDetail]: e.target.value })} />
+=======
+            <div className={styles["user-input"]}>
+              {option === "When" ? (
+                <div className={styles.text}>
+                  {selectedWhenStart === "" && selectedWhenEnd === ""
+                    ? "None"
+                    : `${selectedWhenStart} ~ ${selectedWhenEnd}`}
+                </div>
+              ) : option === "Repeat" ? (
+                <div className={styles.text}>
+                  {selectedRepeatCycle === "" && selectedRepeatEnd === ""
+                    ? "None"
+                    : `${selectedRepeatCycle}, Ends: ${selectedRepeatEnd}`}
+                </div>
+              ) : (
+                <input type="text" placeholder="None" />
+              )}
+>>>>>>> 69acccff0d7f2b9b1c4161568de4b665298baa48
             </div>
             <div className={styles["show-details"]}>
               <i className="material-icons">chevron_right</i>

@@ -86,7 +86,7 @@ const eventData: Event[] = [
     },
     {
         id: 5,
-        title: "Event 5(1.30, 매일반복~2.2)",
+        title: "Event 5(1.30, 매일반복~2.1)",
         note: "This is Event 2",
         type: "event",
         startDate: new Date(2024,0,31),
@@ -95,9 +95,18 @@ const eventData: Event[] = [
         repeat: {
             freq: 'daily',
             dtstart: new Date(2024,0,31),
-            until: '2024-02-03'
+            until: '2024-02-02'
         }
-    }
+    },
+    {
+        id: 6,
+        title: "1차 제출!",
+        note: "This is Event 2",
+        type: "event",
+        startDate: new Date(2024,1,5),
+        endDate: undefined, // End date not provided
+        place: "동방",
+    },
 ];
 
 export const INITIAL_EVENTS: EventInput[] = [...parseTodointoEventInput(todoData), ...parseEventIntoEventInput(eventData)]
@@ -119,6 +128,9 @@ export function parseTodointoEventInput(todos: Todo[]): EventInput[] {
             end: todo.dueDate.toISOString().replace(/T.*$/, ''),
             allDay: true,
             extendedProps: {type: 'todoDue', checked: false},
+            backgroundColor: '#ecc',
+            textColor: '#444',
+            borderColor: 'white',
         });
 
         if (todo.startDate && todo.endDate) {
@@ -128,7 +140,9 @@ export function parseTodointoEventInput(todos: Todo[]): EventInput[] {
                 start: todo.startDate.toISOString().replace(/T.*$/, ''),
                 end: addOneDay(todo.endDate).toISOString().replace(/T.*$/, ''),
                 extendedProps: {type: 'todoProcess', checked: false},
-                display: 'list-item',
+                backgroundColor: '#eee',
+                textColor: '#444',
+                borderColor: 'white',
             });
         }
         
@@ -145,6 +159,8 @@ export function parseEventIntoEventInput(events: Event[]): EventInput[] {
             title: event.title,
             start: event.startDate.toISOString().replace(/T.*$/, ''),
             extendedProps: {type: 'event'},
+            backgroundColor: '#bc77ee',
+            borderColor: 'white',
         };
 
         if (event.endDate) {

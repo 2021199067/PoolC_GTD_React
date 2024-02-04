@@ -1,31 +1,32 @@
-import React from 'react';
+import React from "react";
 import {
-    EventApi,
-    DateSelectArg,
-    EventClickArg,
-    EventContentArg,
-    formatDate,
-} from '@fullcalendar/core';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import rrulePlugin from '@fullcalendar/rrule';
-import { INITIAL_EVENTS } from './event-utils';
-import ExampleModal from '../../components/ExampleModal';
-import { VscDiscard } from 'react-icons/vsc'
+  EventApi,
+  DateSelectArg,
+  EventClickArg,
+  EventContentArg,
+  formatDate,
+} from "@fullcalendar/core";
+import FullCalendar from "@fullcalendar/react";
+import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import interactionPlugin from "@fullcalendar/interaction";
+import rrulePlugin from "@fullcalendar/rrule";
+import { INITIAL_EVENTS } from "./event-utils";
+import ExampleModal from "../../components/ExampleModal";
+import { VscDiscard } from "react-icons/vsc";
 import { WiSmallCraftAdvisory } from "react-icons/wi";
 
-import './index.css';
+import "./index.css";
 
 interface DemoAppState {
-    currentEvents: EventApi[];
-    selectedEvent: EventApi | null;
-    checkedTodos: EventApi[];
-    checkedTodoIds: string[];
+  currentEvents: EventApi[];
+  selectedEvent: EventApi | null;
+  checkedTodos: EventApi[];
+  checkedTodoIds: string[];
 }
 
 export default class DemoApp extends React.Component<object, DemoAppState> {
+
     state: DemoAppState = {
         currentEvents: [],
         selectedEvent: null,
@@ -33,11 +34,14 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
         checkedTodoIds: [],
     };
 
+    calendarRef = React.createRef()
+
     render() {
         return (
             <div className='demo-app'>
                 <div className='demo-app-main'>
                     <FullCalendar
+                        ref={this.calendarRef}
                         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, rrulePlugin]}
                         headerToolbar={{
                             left: 'prev,next today',
@@ -78,6 +82,7 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
                     </ul>
                 </div>
                 {/* <div className='demo-app-sidebar-section'>
+
                     <p>toggle weekends가 있었던 곳</p>
                     { <label>
                         <input
@@ -88,6 +93,7 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
                         toggle weekends
                     </label> }
                 </div> */}
+
             </div>
         );
     }
@@ -113,6 +119,7 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
 
 
     renderEventContent = (eventContent: EventContentArg) => {
+        
         const handleCheckboxClick = (e: React.MouseEvent<HTMLInputElement>) => {
             e.stopPropagation();
             const checkedTodoId = eventContent.event.id;
@@ -127,36 +134,35 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
 
         const { extendedProps } = eventContent.event;
 
-        if (this.state.checkedTodoIds.includes(eventContent.event.id)) {
-            return null
-        }
 
-        if (extendedProps.type === 'event') {
-            return (
-                <>
-                    <b>{eventContent.timeText}</b>
-                    <i>{eventContent.event.title}</i>
-                </>
-            )
-        } else {
-            return (
-                <>
-                    <input type="checkbox" onClick={handleCheckboxClick} />
-                    {extendedProps.type === 'todoDue' ? <WiSmallCraftAdvisory /> : null}
-                    <b>{eventContent.timeText}</b>
-                    <i>{eventContent.event.title}</i>
-                </>
-            );
-        }
+    const { extendedProps } = eventContent.event;
+
+    if (this.state.checkedTodoIds.includes(eventContent.event.id)) {
+      return null;
     }
+    handleUndo = (event: EventApi) => {
+        let calendarApi = this.calendarRef.current.getApi();
+
+        calendarApi.addEvent(event);
+
+        const updatedCheckedTodos = this.state.checkedTodos.filter(e => e.id !== event.id);
+        const updatedCheckedTodoIds = this.state.checkedTodoIds.filter(id => id !== event.id);
+
+        this.setState({
+            checkedTodos: updatedCheckedTodos,
+            checkedTodoIds: updatedCheckedTodoIds,
+        }, () => {calendarApi.render()});
+    };
+
 
     renderSidebarEvent = (event: EventApi) => {
         return (
-            <li key={event.id}>
-                <b>{formatDate(event.start!, { year: 'numeric', month: 'short', day: 'numeric' })}</b>
-                <i>{event.title}</i>
-                <VscDiscard />
+            <li className="complete" key={event.id}>
+                <del>{event.title}</del>
+                <small>{formatDate(new Date(), { month: 'short', day: 'numeric' })}</small>
+                <VscDiscard className="undo" onClick={() => this.handleUndo(event)}/>
             </li>
         );
     }
 }
+

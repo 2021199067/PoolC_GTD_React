@@ -13,10 +13,6 @@
   transition: height 0.5s ease-out;
 }
 
-.label {
-  height: 28px;
-}
-
 .labelChecked {
   background-color: #ebebeb;
   /* color: red; */
@@ -56,6 +52,14 @@
   border: 1px solid #ebebeb;
 }
 
-.end-render-area {
+.created-area {
   width: 100%;
+  padding-top: 16px;
+  text-align: center;
+  border-top: 1px solid #ebebeb;
 }
+
+/* .created-area input {
+  width: 40px;
+  text-align: right;
+} */
