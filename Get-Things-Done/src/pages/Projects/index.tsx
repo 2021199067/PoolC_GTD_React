@@ -8,17 +8,17 @@ interface ProjectsProps {
 
 const Projects = ({ projectsData }: ProjectsProps) => {
     const renderProject = (project: Project) => (
-        <div key={project.id.toISOString()}>
+        <div key={project.id}>
             <button className={styles.projectButton} style={{ backgroundColor: project.hex }}>
                 {project.name}
             </button>
             {project.items?.map((item) => (
                 'items' in item ? (
-                    <div key={item.id.toISOString()} style={{ marginLeft: '20px' }}>
+                    <div key={item.id} style={{ marginLeft: '20px' }}>
                         {renderProject(item as Project)}
                     </div>
                 ) : (
-                    <ProjectItem key={item.id.toISOString()} item={item} />
+                    <ProjectItem key={item.id} item={item} />
                 )
             ))}
         </div>
