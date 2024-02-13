@@ -5,7 +5,7 @@ import { Event } from '../../interfaces/Event'
 import { RRule } from '../../interfaces/RRule';
 
 // sample data for todo
-const todoData: Todo[] = [
+export const todoData: Todo[] = [
     {
         id: 1,
         title: "Todo 1(1.14~1.16, 1.19)",
@@ -44,7 +44,7 @@ const todoData: Todo[] = [
     }
 ];
 // sample data for event
-const eventData: Event[] = [
+export const eventData: Event[] = [
     {
         id: 1,
         title: "Event 1(1.12~1.15)",

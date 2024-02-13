@@ -11,22 +11,22 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import rrulePlugin from '@fullcalendar/rrule';
-import { INITIAL_EVENTS } from './event-utils';
+import { INITIAL_EVENTS, todoData, eventData } from './event-utils';
 import ExampleModal from '../../components/ExampleModal';
 import { VscDiscard } from 'react-icons/vsc'
 import { WiSmallCraftAdvisory } from "react-icons/wi";
+import SomedayItem from '../../components/SomedayItem'
+import styles from './index.module.css';
 
-import './index.css';
-
-interface DemoAppState {
+interface CalendarState {
     currentEvents: EventApi[];
     selectedEvent: EventApi | null;
     checkedTodos: EventApi[];
     checkedTodoIds: string[];
 }
 
-export default class DemoApp extends React.Component<object, DemoAppState> {
-    state: DemoAppState = {
+export default class Calendar extends React.Component<object, CalendarState> {
+    state: CalendarState = {
         currentEvents: [],
         selectedEvent: null,
         checkedTodos: [],
@@ -37,50 +37,53 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
 
     render() {
         return (
-            <div className='demo-app'>
-                <div className='demo-app-main'>
-                    <FullCalendar
-                        ref={this.calendarRef}
-                        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, rrulePlugin]}
-                        headerToolbar={{
-                            left: 'prev,next today',
-                            center: 'title',
-                            right: 'dayGridMonth,timeGridWeek,timeGridDay',
-                        }}
-                        initialView='dayGridMonth'
-                        editable={true}
-                        selectable={true}
-                        selectMirror={true}
-                        dayMaxEvents={2}
-                        weekends={true}
-                        initialEvents={INITIAL_EVENTS}
-                        select={this.handleDateSelect}
-                        eventContent={this.renderEventContent}
-                        eventClick={this.handleEventClick}
-                        eventsSet={this.handleEvents}
-                    />
+            <div>
+                <div className={styles.calendarPage}>
+                    <div className={styles.calendarMain}>
+                        <FullCalendar
+                            ref={this.calendarRef}
+                            plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin, rrulePlugin]}
+                            headerToolbar={{
+                                left: 'prev,next today',
+                                center: 'title',
+                                right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                            }}
+                            initialView='dayGridMonth'
+                            editable={true}
+                            selectable={true}
+                            selectMirror={true}
+                            dayMaxEvents={2}
+                            weekends={true}
+                            initialEvents={INITIAL_EVENTS}
+                            select={this.handleDateSelect}
+                            eventContent={this.renderEventContent}
+                            eventClick={this.handleEventClick}
+                            eventsSet={this.handleEvents}
+                        />
+                    </div>
+                    {this.renderSidebar()}
+                    {this.state.selectedEvent && (
+                        <ExampleModal
+                            event={this.state.selectedEvent}
+                            onClose={this.closeModal}
+                        />
+                    )}
                 </div>
-                {this.renderSidebar()}
-                {this.state.selectedEvent && (
-                    <ExampleModal
-                        event={this.state.selectedEvent}
-                        onClose={this.closeModal}
-                    />
-                )}
+                <SomedayItem todos={todoData}/>
             </div>
         );
     }
 
     renderSidebar() {
         return (
-            <div className='demo-app-sidebar'>
-                <div className='demo-app-sidebar-section'>
+            <div className={styles.calendarSidebar}>
+                <div className={styles.calendarSidebarSection}>
                     <h2>Complete ({this.state.checkedTodos.length})</h2>
                     <ul>
                         {this.state.checkedTodos.map(this.renderSidebarEvent)}
                     </ul>
                 </div>
-                {/* <div className='demo-app-sidebar-section'>
+                {/* <div className={styles.calendarSidebarSection}>
                     <p>toggle weekends가 있었던 곳</p>
                     { <label>
                         <input
@@ -145,8 +148,8 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
         } else {
             return (
                 <>
-                    <input type="checkbox" onClick={handleCheckboxClick} />
-                    {extendedProps.type === 'todoDue' ? <WiSmallCraftAdvisory /> : null}
+                    {extendedProps.type === 'todoDue' ?
+                     <WiSmallCraftAdvisory /> : <input type="checkbox" onClick={handleCheckboxClick} />}
                     <b>{eventContent.timeText}</b>
                     <i>{eventContent.event.title}</i>
                 </>
@@ -169,10 +172,10 @@ export default class DemoApp extends React.Component<object, DemoAppState> {
 
     renderSidebarEvent = (event: EventApi) => {
         return (
-            <li className="complete" key={event.id}>
+            <li className={styles.complete} key={event.id}>
                 <del>{event.title}</del>
                 <small>{formatDate(new Date(), { month: 'short', day: 'numeric' })}</small>
-                <VscDiscard className="undo" onClick={() => this.handleUndo(event)} />
+                <VscDiscard className={styles.undo} onClick={() => this.handleUndo(event)} />
             </li>
         );
     }

@@ -1,27 +1,28 @@
-.demo-app {
+.calendarPage {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   min-height: 100%;
   font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
   font-size: 14px;
 }
 
-.demo-app-sidebar {
-  width: 70%;
+.calendarMain {
+  width: 75%;
+  flex-grow: 1;
+  padding: 0 1em 2em 0;
+}
+
+.calendarSidebar {
+  width: 25%;
+  height: 50%;
+  flex-grow: 1;
   line-height: 1.5;
   background: #eaf9ff;
-  border-right: 1px solid #d3e2e8;
+  /* border-right: 1px solid #d3e2e8; */
 }
 
-.demo-app-sidebar-section {
-  width: 70%;
+.calendarSidebarSection {
   padding: 1em;
-}
-
-.demo-app-main {
-  width: 70%;
-  flex-grow: 1;
-  padding-bottom: 1em;
 }
 
 .fc { /* the calendar root */

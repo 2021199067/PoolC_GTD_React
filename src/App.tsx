@@ -60,7 +60,6 @@ function App() {
           <Route path="/" element={<Today todos = {todos} events={events} />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/inbox" element={<Inbox memos = {memos}/>} />
-          <Route path="/someday" element={<Someday todos={todos} />} />
           <Route path="/projects" element={<Projects projectsData={projects} />} />
         </Routes>
       </Layout>
