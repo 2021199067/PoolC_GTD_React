@@ -3,22 +3,17 @@ import styles from "./MemoModalProject.module.css";
 import projects2 from "../../../projectsData2.tsx"; //debugging
 import { Project } from "src/interfaces/Project.ts";
 
-//이미 project라는 interface가 있어서 혹시 지워도 되나요?
-// interface Project {
-//   id: string;
-//   name: string;
-//   items?: Project[]; // 선택적 속성, 프로젝트 내 다른 프로젝트를 포함할 수 있음
-// }
-
 interface MemoModalProjectProps {
   onProjectSelect: (icon: string, name: string) => void;
 }
 
 interface ProjectItemProp {
-  icon: string,
-  name: string,
+  icon: string;
+  name: string;
 }
-const MemoModalProject: React.FC<MemoModalProjectProps> = ({onProjectSelect,}) => {
+const MemoModalProject: React.FC<MemoModalProjectProps> = ({
+  onProjectSelect,
+}) => {
   const [activePath, setActivePath] = useState<string[]>([]);
 
   const handleInboxClick = () => {
@@ -34,7 +29,7 @@ const MemoModalProject: React.FC<MemoModalProjectProps> = ({onProjectSelect,}) =
       return newPath;
     });
     //debugging -> (if(project.icon))
-    if(project.icon){
+    if (project.icon) {
       onProjectSelect(project.icon, project.name);
     }
   };
@@ -63,7 +58,8 @@ const MemoModalProject: React.FC<MemoModalProjectProps> = ({onProjectSelect,}) =
                 hasSubprojects ? styles.branch : styles.leaf
               }`}
               onClick={() =>
-                handleProjectClick([...currentPath, project.id.toISOString()], { //debugging -> (.toISOString())
+                handleProjectClick([...currentPath, project.id.toISOString()], {
+                  //debugging -> (.toISOString())
                   icon: "folder",
                   name: project.name,
                 })
@@ -90,8 +86,9 @@ const MemoModalProject: React.FC<MemoModalProjectProps> = ({onProjectSelect,}) =
     activePath.forEach((id, index) => {
       const project = currentProjects.find((p) => p.id.toISOString() === id);
       if (project && project.items) {
-        // currentProjects = project.items.filter((item) => !item.type);
-        currentProjects = project.items.filter((item) => item.type == 'project') as Project[];
+        currentProjects = project.items.filter(
+          (item) => item.type == "project"
+        ) as Project[];
         floors.push(
           renderProjects(currentProjects, activePath.slice(0, index + 1))
         );
