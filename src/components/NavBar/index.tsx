@@ -6,11 +6,11 @@ const NavBar = () => {
         <nav id="navbar">
             <ul>
                 <li>
-                    <Link to='/inbox'>Inbox</Link>
+                    <Link to='/'>Inbox</Link>
                 </li>
                 <br></br>
                 <li>
-                    <Link to='/'>Today</Link>
+                    <Link to='/today'>Today</Link>
                 </li>
                 <li>
                     <Link to='/calendar'>Calendar</Link>

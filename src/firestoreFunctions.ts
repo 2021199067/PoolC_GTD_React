@@ -106,9 +106,9 @@ type ComparisonOperator = '<' | '<=' | '==' | '>' | '>=' | '!=' | 'array-contain
 //   }
 // };
 
-export const fetchCollection = <T extends Event | Project | Todo | Memo>(setList: React.Dispatch<React.SetStateAction<T[]>>) => {
+export const fetchCollection = <T extends Event | Project | Todo | Memo>(collectionName: string, setList: React.Dispatch<React.SetStateAction<T[]>>) => {
   try {
-    const unsubscribe = onSnapshot(collection(db, 'event-list'), (querySnapshot: QuerySnapshot) => {
+    const unsubscribe = onSnapshot(collection(db, collectionName), (querySnapshot: QuerySnapshot) => {
       const updatedList = querySnapshot.docs.map((doc: DocumentSnapshot) => {
         const data = doc.data();
         if (!('completed' in data)) {
@@ -116,9 +116,9 @@ export const fetchCollection = <T extends Event | Project | Todo | Memo>(setList
         }
         Object.keys(data).forEach((field) => {
           if ((data[field]) instanceof Timestamp) {
-            console.log('timestamp');
+            // console.log('timestamp');
             data[field] = (data[field] as Timestamp).toDate();
-            console.log(data[field]);
+            // console.log(data[field]);
           }
         });
         return { docRef: doc.id, ...data} as T;
@@ -158,7 +158,7 @@ export const updateData = async (collectionName: string, docId: string, newData:
 export const queryData = async (collectionName: string, fieldName: string, operator: ComparisonOperator, queryValue: any) => {
   const q = query(collection(db, collectionName), where(fieldName, operator, queryValue));
   const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
+  querySnapshot.forEach((doc: DocumentSnapshot) => {
     console.log(`${doc.id} => ${doc.data()}`);
   });
   return querySnapshot;

@@ -8,7 +8,7 @@ import Someday from './pages/Someday';
 import Projects from './pages/Projects';
 import Today from './pages/Today';
 
-import { addData, fetchEvents, fetchMemos, fetchProjects, fetchTodos } from './firestoreFunctions';
+import { addData, fetchEvents, fetchMemos, fetchProjects, fetchTodos, fetchCollection } from './firestoreFunctions';
 import { Todo } from './interfaces/Todo';
 import { Event } from './interfaces/Event';
 import { Project } from './interfaces/Project';
@@ -22,25 +22,25 @@ function App() {
   const [projects, setProjects] = useState<Project[]>([]);
   
   useEffect(() => {
-    const unsubscribe = fetchTodos(setTodos);
+    const unsubscribe = fetchCollection('todo-list', setTodos);
     return () =>{
       unsubscribe();
     };
   }, []);
   useEffect(() => {
-    const unsubscribe = fetchEvents(setEvents);
+    const unsubscribe = fetchCollection('event-list', setEvents);
     return () =>{
       unsubscribe();
     };
   }, []);
   useEffect(() => {
-    const unsubscribe = fetchMemos(setMemos);
+    const unsubscribe = fetchCollection('memo-list', setMemos);
     return () =>{
       unsubscribe();
     };
   }, []);
   useEffect(() => {
-    const unsubscribe = fetchProjects(setProjects);
+    const unsubscribe = fetchCollection('project-folders', setProjects);
     return () =>{
       unsubscribe();
     };
@@ -58,9 +58,9 @@ function App() {
     <Router>
       <Layout>
         <Routes>
-          <Route path="/" element={<Today todos = {todos} events={events} />} />
+          <Route path="/" element={<Inbox memos={memos} />} />
           <Route path="/calendar" element={<Calendar />} />
-          <Route path="/inbox" element={<Inbox memos = {memos}/>} />
+          <Route path="/today" element={<Today todos = {todos} events={events} />} />
           <Route path="/someday" element={<Someday todos={todos} />} />
           <Route path="/projects" element={<Projects projectsData={projects} />} />
         </Routes>
