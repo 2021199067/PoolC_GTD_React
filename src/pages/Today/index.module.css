@@ -16,3 +16,11 @@
 .eventListItem span {
     color: #7294d8;
 }
+.todoListItem {
+    box-sizing: border-box;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 5px;
+
+}

@@ -75,7 +75,7 @@ const Today = ({ todos, events }: TodayProps) => {
             </div>
             <ul>
                 {todayTodos.map((todo) => (
-                    <li key={todo.id.toISOString()}>
+                    <li key={todo.id.toISOString()} className={styles.todoListItem}>
                         <TodoItem todo={todo} />
                     </li>
                 ))}

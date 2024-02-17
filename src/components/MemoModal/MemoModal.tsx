@@ -85,7 +85,8 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
         startDate: details.start,
         endDate: details.end,
         place: details.location,
-        repeat: { freq: details.repeat },
+        project: 'inbox',
+        // repeat: { freq: details.repeat },
       };
       addData("event-list", newEvent);
     } else if (selectedOption === "Todo") {
@@ -95,7 +96,8 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
         startDate: details.start,
         endDate: details.end,
         dueDate: details.deadline,
-        repeat: { freq: details.repeat },
+        project: 'inbox',
+        // repeat: { freq: details.repeat },
       };
       addData("todo-list", newTodo);
     } else {
@@ -103,7 +105,7 @@ const MemoModal = forwardRef(({ closeModal }: MemoModalProps, ref) => {
     }
     closeModal();
   };
-  const handleDetailsChange = (newdetails: { [key: string]: string }) => {
+  const handleDetailsChange = (newdetails: { [key: string]: string | Date}) => {
     setDetails({
       ...details,
       ...newdetails,

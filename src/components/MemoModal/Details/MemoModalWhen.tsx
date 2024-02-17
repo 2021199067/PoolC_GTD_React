@@ -8,11 +8,14 @@ import { Dayjs } from "dayjs";
 interface Props {
   onWhenStartChange: (value: string) => void;
   onWhenEndChange: (value: string) => void;
+  updateWhenChange: (newdetails: {[key: string]: string | Date }) => void;
+
 }
 
 const MemoModalWhen: React.FC<Props> = ({
   onWhenStartChange,
   onWhenEndChange,
+  updateWhenChange,
 }) => {
   const [selectedWhenStart, setSelectedWhenStart] = useState<Dayjs | null>();
   const [selectedWhenEnd, setSelectedWhenEnd] = useState<Dayjs | null>();
@@ -23,11 +26,13 @@ const MemoModalWhen: React.FC<Props> = ({
       ? newValue.format("YY/MM/DD HH:mm")
       : "";
     onWhenStartChange(formattedStartDate);
+    if(newValue) { updateWhenChange( { ['start']: newValue.toDate() });}
   };
   const handleEndChange = (newValue: Dayjs | null) => {
     setSelectedWhenEnd(newValue);
     const formattedEndDate = newValue ? newValue.format("YY/MM/DD HH:mm") : "";
     onWhenEndChange(formattedEndDate);
+    if(newValue) { updateWhenChange( { ['end']: newValue.toDate() });}
   };
 
   return (
