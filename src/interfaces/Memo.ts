@@ -1,13 +1,21 @@
-import { RRule } from './RRule';
+import { Repeat } from './Repeat';
+import { Project } from './Project';
 
 export interface Memo {
     id: Date; // id = new Date;
     title: string;
-    type: 'memo' | 'todo' | 'event'; //temp => memo
+    project: Project | 'inbox';
+    type: 'memo';
     note?: string;
+    
+    when?: boolean;
+    someday?: boolean;
+    allDay?: boolean;
     startDate?: Date | null;
+    startTime?: Date | string | null;
     endDate?: Date | null;
-    repeat?: RRule;
-    completed: Boolean;
+    endTime?: Date | string | null;
+    repeat?: Repeat;
+    completed?: boolean;
     docRef?: string;
 }

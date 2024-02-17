@@ -2,7 +2,7 @@ import { EventInput } from '@fullcalendar/core'
 import { RRuleInput } from '@fullcalendar/rrule'
 import { Todo } from '../../interfaces/Todo'
 import { Event } from '../../interfaces/Event'
-import { RRule } from '../../interfaces/RRule';
+import { RRule } from '../../interfaces/Repeat';
 
 // sample data for todo
 const todoData: Todo[] = [

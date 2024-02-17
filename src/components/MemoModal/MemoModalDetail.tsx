@@ -8,7 +8,7 @@ import MemoModalRepeat from "./Details/MemoModalRepeat";
 
 interface MemoModalDetailProps {
   selectedType: "Event" | "Todo";
-  updateDetails: (newdetails: {[key: string]: string}) => void;
+  updateDetails: (newdetails: {[key: string]: string | Date }) => void;
 
 }
 
@@ -52,6 +52,7 @@ function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) 
       case "When":
         return (
           <MemoModalWhen
+            updateWhenChange = {updateDetails}
             onWhenStartChange={setSelectedWhenStart}
             onWhenEndChange={setSelectedWhenEnd}
           />
@@ -59,7 +60,11 @@ function MemoModalDetail({ selectedType, updateDetails }: MemoModalDetailProps) 
       case "Location":
         return <MemoModalLocation />;
       case "Deadline":
-        return <MemoModalDeadline />;
+        return (
+          <MemoModalDeadline 
+            updateWhenChange = {updateDetails}
+          />
+        );
       case "Repeat":
         return (
           <MemoModalRepeat

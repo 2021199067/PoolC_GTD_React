@@ -10,9 +10,9 @@ const Layout = (props: { children: ReactNode }) => {
     setIsModalOpen(true);
   };
 
-  // const closeModal = () => {
-  //   setIsModalOpen(false);
-  // };
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div id="page-wrapper">
@@ -26,7 +26,7 @@ const Layout = (props: { children: ReactNode }) => {
           +
         </button>
       </div>
-      {isModalOpen && <MemoModal />}
+      {isModalOpen && <MemoModal closeModal={closeModal}/>}
     </div>
   );
 };
